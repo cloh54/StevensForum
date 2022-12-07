@@ -8,21 +8,52 @@ Properties of tags collection
 3. posts: array of ObjectIds
 */
 
-const createTag = async (tag) => {
-    // tag is string
+const getTag = async (tag) => {
+    // check if tag exists in tagCollection
+    // if exists, return id
+    // else create tag and return its id
+    const tagCollection = await tags();
+    const sameTags = await tagCollection.find({ tag: tag }).toArray();
+    if (sameTags.length === 0) { // tag doesn't exist
+        return await createTag(tag);
+    } 
+    return {tagExisted: true};
+}
 
+const createTag = async (tag) => {
+    // tag is string, should be unique
+    const tagCollection = await tags();
+    let newTag = {
+        tag: tag,
+        posts: []
+    };
+    const insertInfo = await tagCollection.insertOne(newTag);
+    if (!insertInfo.acknowledged || !insertInfo.insertedId) throw 'Could not add tag!';
+    return {insertedTag: true};
 }; 
 
-const addTagToPost = async (tagId, postId) => {
-
+const addPostToTag = async (tag, postId) => {
+    const tagCollection = await tags();
+    const updateInfo = await tagCollection.updateOne(
+        { tag: tag },
+        { $addToSet: {posts: postId }}
+    );
+    if (!updateInfo.modifiedCount === 0) throw 'Could not add tag to post!';
+    return {addedPostToTag: true};
 };
 
-const removeTagFromPost = async (tagId, postId) => {
-
+const removePostFromTag = async (tag, postId) => {
+    const tagCollection = await tags();
+    const updateInfo = await tagCollection.updateOne(
+        { tag: tag },
+        { $pull: { posts: postId }}
+    );
+    if (!updateInfo.modifiedCount === 0) throw 'Could not remove tag from post!';
+    return {removedPostFromTag: true};
 };
 
 module.exports = {
-    createTag,
-    addTagToPost,
-    removeTagFromPost
+    getTag,
+    addPostToTag,
+    removePostFromTag
 };
