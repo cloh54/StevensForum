@@ -8,6 +8,5 @@ module.exports = {
     users: userData,
     posts: postData,
     comments: commentData,
-    tags: tagData,
     reports: reportData
 }

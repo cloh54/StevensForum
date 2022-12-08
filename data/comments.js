@@ -1,6 +1,5 @@
 const mongoCollections = require('../config/mongoCollections');
 const comments = mongoCollections.comments;
-const usersCollection = require('./users');
 const postsCollection = require('./posts');
 
 /*
@@ -14,24 +13,53 @@ Properties of comment collection
 */
 
 const createComment = async (userId, postId, body) => {
-
+    const currDate = new Date();
+    const commentCollection = await comments();
+    let newComment = {
+        userId: userId,
+        postId: postId,
+        body: body,
+        dateCreated: currDate,
+        lastUpdated: currDate
+    };
+    let insertInfo = await commentCollection.insertOne(newComment);
+    if (!insertInfo.acknowledged || !insertInfo.insertedId) throw 'Could not add comment!';
+    let newId = insertInfo.insertedId;
+    await postsCollection.addCommentToPost(postId, newId);
+    return await getCommentById(newId);
 };
 
-const editComment = async (id) => {
-
+const editComment = async (id, body) => {
+    const currDate = new Date();
+    const commentCollection = await comments();
+    let editedComment = {
+        body: body,
+        lastUpdated: currDate
+    };
+    const editedInfo = commentCollection.updateOne(
+        { _id: id },
+        { $set: editedComment }
+    );
+    //if (editedInfo.modifiedCount === 0) throw 'Could not edit comment!';
+    return await getCommentById(id);
 };
 
 const removeComment = async (id) => {
-
+    const commentCollection = await comments();
+    const deletionInfo = await commentCollection.deleteOne({_id: id});
+    if (deletionInfo.deletedCount === 0) throw `Could not delete coment with id of ${id}`;
+    return {commentId: id, deleted: true};
 };
 
 const getCommentById = async (id) => {
-
+    const commentCollection = await comments();
+    const comment = await commentCollection.findOne({_id: id});
+    if (comment === null) throw `Could not find comment with id of ${id}`;
+    return comment;
 };
 
 module.exports = {
     createComment,
     editComment,
-    removeComment,
-    getCommentById
+    removeComment
 };

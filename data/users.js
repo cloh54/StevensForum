@@ -32,8 +32,8 @@ const createUser = async (username, password, admin) => {
     
     const insertInfo = await userCollection.insertOne(newUser);
     if (!insertInfo.acknowledged || !insertInfo.insertedId) throw 'Could not add user';
-
-    return {insertedUser: true};
+    let newId = insertInfo.insertedId;
+    return await getUserById(newId);
 };
 
 const checkUser = async (username, password) => {
@@ -54,41 +54,41 @@ const getUserById = async (id) => {
 
 const addPostToUser = async (userId, postId) => {
     const userCollection = await users();
-    const updateInfo = await userCollection.updateOne(
+    const updatedInfo = await userCollection.updateOne(
         {_id: userId},
         {$addToSet: { posts: postId }}
     );
-    if (!updateInfo.modifiedCount === 0) throw 'Could not add post to user!';
+    if (!updatedInfo.modifiedCount === 0) throw 'Could not add post to user!';
     return await getUserById(userId);
 };
 
 const removePostFromUser = async (userId, postId) => {
     const userCollection = await users();
-    const updateInfo = await userCollection.updateOne(
+    const updatedInfo = await userCollection.updateOne(
         { _id: userId },
         { $pull: {posts: postId}}
     );
-    if (!updateInfo.modifiedCount === 0) throw 'Could not remove post from user!';
+    if (!updatedInfo.modifiedCount === 0) throw 'Could not remove post from user!';
     return await getUserById(userId);
 };
 
 const addCommentToUser = async (userId, commentId) => {
     const userCollection = await users();
-    const updateInfo = await userCollection.updateOne(
+    const updatedInfo = await userCollection.updateOne(
         {_id: userId},
         {$addToSet: { comments: commentId }}
     );
-    if (!updateInfo.modifiedCount === 0) throw 'Could not add comment to user!';
+    if (!updatedInfo.modifiedCount === 0) throw 'Could not add comment to user!';
     return await getUserById(userId);
 };
 
 const removeCommentFromUser = async (userId, commentId) => {
     const userCollection = await users();
-    const updateInfo = await userCollection.updateOne(
+    const updatedInfo = await userCollection.updateOne(
         { _id: userId },
         { $pull: {comments: commentId}}
     );
-    if (!updateInfo.modifiedCount === 0) throw 'Could not remove comment from user!';
+    if (!updatedInfo.modifiedCount === 0) throw 'Could not remove comment from user!';
     return await getUserById(userId);
 };
 
