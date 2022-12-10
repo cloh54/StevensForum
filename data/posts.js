@@ -1,3 +1,4 @@
+const { search } = require('../../../Lab6/routes/movies');
 const mongoCollections = require('../config/mongoCollections');
 const posts = mongoCollections.posts;
 const usersCollection = require('./users');
@@ -153,11 +154,9 @@ const searchPostByTopic = async (input) => {
 };
 
 const searchPostByTags = async (input) => {
-
-};
-
-const searchPostByTopicAndTags = async (input) => {
-
+    const postCollection = await posts();
+    let posts = await postCollection.find({ tags: {$elemMatch: { $eq: input } } });
+    return posts;
 };
 
 module.exports = {
@@ -174,6 +173,5 @@ module.exports = {
     removeLike,
     removeDislike,
     searchPostByTopic,
-    searchPostByTags,
-    searchPostByTopicAndTags
+    searchPostByTags
 };
