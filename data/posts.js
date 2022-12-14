@@ -17,8 +17,15 @@ Properties of post collection
 */
 
 const createPost = async (userId, topic, body, tags) => {
-    const currDate = new Date();
+    // if there are no tags, it will be an empty array
+    if (!topic || typeof topic !== 'string') throw 'You must provide a topic!';
+    if (!body || typeof body !== 'string') throw 'You must provide a body!';
+    if (!Array.isArray(tags)) throw 'Error: Tags must be an array';
+    for (let i=0; i<tags.length; i++) {
+        if (typeof tags[i] !== 'string') throw 'Error: Every element of tags needs to be a string';
+    }
 
+    const currDate = new Date();
     const postCollection = await posts();
     let newPost = {
         userId: userId,
@@ -42,6 +49,13 @@ const createPost = async (userId, topic, body, tags) => {
 };
 
 const editPost = async (id, topic, body, tags) => {
+    if (!topic || typeof topic !== 'string') throw 'You must provide a topic!';
+    if (!body || typeof body !== 'string') throw 'You must provide a body!';
+    if (!Array.isArray(tags)) throw 'Error: Tags must be an array';
+    for (let i=0; i<tags.length; i++) {
+        if (typeof tags[i] !== 'string') throw 'Error: Every element of tags needs to be a string';
+    }
+
     const postCollection = await posts();
     const currDate = new Date();
     const editedPost = {
@@ -147,6 +161,8 @@ const removeDislike = async (postId, userId) => {
 };
 
 const searchPostByTopic = async (input) => {
+    if (!input || typeof input !== 'string') throw 'You must provide an input!';
+
     const postCollection = await posts();
     let reg = new RegExp('.*' + input + '.*', 'i');
     let posts = await postCollection.find({topic: reg}).toArray();
@@ -154,6 +170,8 @@ const searchPostByTopic = async (input) => {
 };
 
 const searchPostByTags = async (input) => {
+    if (!input || typeof input !== 'string') throw 'You must provide an input!';
+
     const postCollection = await posts();
     let posts = await postCollection.find({ tags: {$elemMatch: { $eq: input } } });
     return posts;

@@ -7,7 +7,7 @@ const saltRounds = 16;
 Properties to the user collection
 1. _id: ObjectId
 2. username: string
-3. password: hash
+3. password: hash (password needs to be at least 8 characters)
 4. admin: boolean
 5. posts: array of ObjectIds
 6. comments: array of ObjectIds
@@ -16,6 +16,10 @@ Properties to the user collection
 const createUser = async (username, password, admin) => {
     // username and password are strings
     // admin is boolean
+    if (!username || typeof username !== 'string') throw 'You must provide a username!';
+    if (!password || typeof password !== 'string') throw 'You must provide a password!';
+    if (password.length < 8) throw 'Password must be at least 8 characters long!';
+
     const userCollection = await users();
     const sameUsernames = await userCollection.find({ username: username }).toArray();
     if (sameUsernames.length !== 0) throw 'There is already a user with that username!';
@@ -37,6 +41,10 @@ const createUser = async (username, password, admin) => {
 };
 
 const checkUser = async (username, password) => {
+    if (!username || typeof username !== 'string') throw 'You must provide a username!';
+    if (!password || typeof password !== 'string') throw 'You must provide a password!';
+    if (password.length < 8) throw 'Password must be at least 8 characters long!';
+
     const userCollection = await users();
     const user = await userCollection.findOne({ username: username });
     if (user === null) throw 'Either the username or password is invalid';

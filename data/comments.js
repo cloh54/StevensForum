@@ -13,6 +13,8 @@ Properties of comment collection
 */
 
 const createComment = async (userId, postId, body) => {
+    if (!body || typeof body !== 'string') throw 'YOu must provide a body!';
+
     const currDate = new Date();
     const commentCollection = await comments();
     let newComment = {
@@ -30,6 +32,8 @@ const createComment = async (userId, postId, body) => {
 };
 
 const editComment = async (id, body) => {
+    if (!body || typeof body !== 'string') throw 'You must provide a body!';
+
     const currDate = new Date();
     const commentCollection = await comments();
     let editedComment = {
@@ -40,7 +44,7 @@ const editComment = async (id, body) => {
         { _id: id },
         { $set: editedComment }
     );
-    //if (editedInfo.modifiedCount === 0) throw 'Could not edit comment!';
+    if (editedInfo.modifiedCount === 0) throw 'Could not edit comment!';
     return await getCommentById(id);
 };
 
