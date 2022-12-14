@@ -1,5 +1,7 @@
 const mongoCollections = require('../config/mongoCollections');
-const users = mognoCollections.users;
+const users = mongoCollections.users;
+const validation = require('./validation');
+const { ObjectId } = require('mongodb');
 const bcrypt = require('bcrypt');
 const saltRounds = 16;
 
@@ -36,7 +38,7 @@ const createUser = async (username, password, admin) => {
     
     const insertInfo = await userCollection.insertOne(newUser);
     if (!insertInfo.acknowledged || !insertInfo.insertedId) throw 'Could not add user';
-    let newId = insertInfo.insertedId;
+    let newId = insertInfo.insertedId.toString();
     return await getUserById(newId);
 };
 
@@ -54,47 +56,56 @@ const checkUser = async (username, password) => {
 };
 
 const getUserById = async (id) => {
+    id = validation.checkId(id);
     const userCollection = await users();
-    const user = await userCollection.findOne({_id: id});
+    const user = await userCollection.findOne({_id: ObjectId(id)});
     if (user === null) throw 'There is no user with that id!';
     return user;
 };
 
 const addPostToUser = async (userId, postId) => {
+    userId = validation.checkId(userId);
+    postId = validation.checkId(postId);
     const userCollection = await users();
     const updatedInfo = await userCollection.updateOne(
-        {_id: userId},
-        {$addToSet: { posts: postId }}
+        {_id: ObjectId(userId)},
+        {$addToSet: { posts: ObjectId(postId) }}
     );
     if (!updatedInfo.modifiedCount === 0) throw 'Could not add post to user!';
     return await getUserById(userId);
 };
 
 const removePostFromUser = async (userId, postId) => {
+    userId = validation.checkId(userId);
+    postId = validation.checkId(postId);
     const userCollection = await users();
     const updatedInfo = await userCollection.updateOne(
-        { _id: userId },
-        { $pull: {posts: postId}}
+        { _id: ObjectId(userId) },
+        { $pull: {posts: ObjectId(postId)}}
     );
     if (!updatedInfo.modifiedCount === 0) throw 'Could not remove post from user!';
     return await getUserById(userId);
 };
 
 const addCommentToUser = async (userId, commentId) => {
+    userId = validation.checkId(userId);
+    commentId = validation.checkId(commentId);
     const userCollection = await users();
     const updatedInfo = await userCollection.updateOne(
-        {_id: userId},
-        {$addToSet: { comments: commentId }}
+        {_id: ObjectId(userId)},
+        {$addToSet: { comments: ObjectId(commentId) }}
     );
     if (!updatedInfo.modifiedCount === 0) throw 'Could not add comment to user!';
     return await getUserById(userId);
 };
 
 const removeCommentFromUser = async (userId, commentId) => {
+    userId = validation.checkId(userId);
+    commentId = validation.checkId(commentId);
     const userCollection = await users();
     const updatedInfo = await userCollection.updateOne(
-        { _id: userId },
-        { $pull: {comments: commentId}}
+        { _id: ObjectId(userId) },
+        { $pull: {comments: ObjectId(commentId)}}
     );
     if (!updatedInfo.modifiedCount === 0) throw 'Could not remove comment from user!';
     return await getUserById(userId);
