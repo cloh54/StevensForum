@@ -1,0 +1,24 @@
+<main>
+    <h2>Log in</h2> 
+    <div class="form-container">
+        <form id="login-form" action="/login" method="post">
+            <label for="usernameInput">Enter username: </label>
+            <input type="text" id="usernameInput" name="usernameInput">
+
+            <label for="passwordInput">Enter password: </label>
+            <input type="password" id="passwordInput" name="passwordInput">
+
+            <input type="submit" value="Sign in">
+        </form>
+    </div>
+
+    {{#if error}}
+    <div class="error-container" id="login-error">
+        <p>Invalid username and/or password</p>
+    </div>
+    {{/if}}
+
+    <div class="link-container">
+        <a href="/register">Click here to register!</a>
+    </div>
+</main>

@@ -1,0 +1,29 @@
+<main>
+    <h2>Register</h2>
+    <div class="form-container">
+        <form id="register-form" action="/register" post="method">
+            <label for="usernameInput">Enter username: </label>
+            <input type="text" id="usernameInput" name="usernameInput">
+
+            <label for="passwordInput">Enter password: </label>
+            <input type="password" id="passwordInput" name="passwordInput">
+
+            <p>Please select:</p>
+            <input type="radio" id="student" name="student" value="student">
+            <label for="student">I am a student</label>
+            <input type="radio" id="admin" name="admin" value="admin">
+            <label for="admin">I am a professor or a staff member</label>
+
+            <input type="submit" value="Register">
+        </form>
+    </div>
+    {{#if error}}
+    <div class="error-container" id="login-error">
+        <p>Invalid username and/or password</p>
+    </div>
+    {{/if}}
+
+    <div class="link-container">
+        <a href="/login">Already have an account? Click here to log in</a>
+    </div>
+</main>

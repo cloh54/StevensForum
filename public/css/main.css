@@ -1,0 +1,48 @@
+html,
+body {
+    font-size: 14pt;
+}
+
+body {
+    background: #e3fcf0;
+    font-family: Georgia;
+}
+
+header {
+    border-bottom: 1px solid #ffffff;
+}
+
+.header-right {
+    float: right;
+}
+
+.navbar a {
+    float: left;
+    display: block;
+    color: black;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.navbar a:hover {
+    background-color: #e4e4e4;
+}
+
+.navbar input[type=text] {
+    padding: 6px;
+    margin-top: 8px;
+    border: 1px solid rgb(87, 86, 86);
+}
+
+.navbar .search-container button {
+    padding: 6px 10px;
+    margin-top: 8px;
+    margin-right: 16px;
+    background: #e4e4e4;
+    border: none;
+    cursor: pointer;
+}
+
+.navbar .search-container button:hover {
+    background: #c5c4c4;
+}
