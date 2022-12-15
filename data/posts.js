@@ -182,7 +182,7 @@ const removeDislike = async (postId, userId) => {
 
 const searchPostByTopic = async (input) => {
     if (!input || typeof input !== 'string') throw 'You must provide an input!';
-
+    input = input.trim();
     const postCollection = await posts();
     let reg = new RegExp('.*' + input + '.*', 'i');
     let posts = await postCollection.find({topic: reg}).toArray();
@@ -191,7 +191,7 @@ const searchPostByTopic = async (input) => {
 
 const searchPostByTags = async (input) => {
     if (!input || typeof input !== 'string') throw 'You must provide an input!';
-
+    input = input.trim();
     const postCollection = await posts();
     let posts = await postCollection.find({ tags: {$elemMatch: { $eq: input } } });
     return posts;
