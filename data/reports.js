@@ -1,6 +1,6 @@
 const mongoCollections = require('../config/mongoCollections');
 const reports = mongoCollections.reports;
-const validation = reqiure('./validation');
+const validation = require('./validation');
 const { ObjectId } = require('mongodb');
 
 /*

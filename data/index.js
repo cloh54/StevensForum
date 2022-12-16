@@ -1,7 +1,7 @@
 const userData = require('./users');
 const postData = require('./posts');
 const commentData = require('./comments');
-const tagData = require('./tags');
+//const tagData = require('./tags');
 const reportData = require('./reports');
 
 module.exports = {

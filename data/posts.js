@@ -1,4 +1,4 @@
-const { search } = require('../../../Lab6/routes/movies');
+//const { search } = require('../../../Lab6/routes/movies');
 const mongoCollections = require('../config/mongoCollections');
 const posts = mongoCollections.posts;
 const usersCollection = require('./users');

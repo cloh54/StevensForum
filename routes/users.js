@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const { route } = require('../../../Lab8/routes/people');
+//const { route } = require('../../../Lab8/routes/people');
 const { posts } = require('../data');
 const data = require('../data');
 const postData = data.posts;
