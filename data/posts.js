@@ -224,6 +224,7 @@ const getAllPostsByNewest = async () => {
     allPosts.sort(function(a,b) {
         return b.date - a.date;
     });
+    return allPosts;
 };
 
 const getTrendingPosts = async () => {
@@ -237,8 +238,6 @@ const getTrendingPosts = async () => {
             currPosts.push(allPosts[i]);
         }
     }
-    console.log('getTrendingPosts');
-    console.log(currPosts);
     let posts_sorted = currPosts.sort(function(a, b)  {
         return b.likes.length - a.likes.length;
     });

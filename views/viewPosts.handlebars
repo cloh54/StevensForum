@@ -5,7 +5,7 @@
 <main>
     {{#if searchBy}}
         <h1>Results for "{{input}}"</h1>
-        <h2>Searching by {{searchBy}}</h2>
+        <h3>Searching by {{searchBy}}</h2>
     {{/if}}
     {{#if newPosts}}
         <h1>View newest posts</h1>
@@ -15,6 +15,7 @@
         <li>
             <div class="post-li">
                 <a href="/posts/{{_id}}">{{topic}}</a>
+                <p>{{body}}</p>
             </div>
         </li>
         {{/each}}
