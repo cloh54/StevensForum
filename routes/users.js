@@ -5,6 +5,7 @@ const path = require('path');
 const { posts } = require('../data');
 const data = require('../data');
 const postData = data.posts;
+const userData = data.users;
 
 router
     //routes for homepage
@@ -61,8 +62,9 @@ router
     
     router.post('/register', async (req, res) => {
         try {
-            let result = await createUser(req.body.usernameInput, req.body.passwordInput);
-            if (result.insertedUser === true) {
+            
+            let result = await userData.createUser(req.body.usernameInput, req.body.passwordInput);
+            if (result) {
               res.redirect('/');
             } else {
               res.status(500).json({error: 'Internal Server Error'});
@@ -82,7 +84,7 @@ router
     
     router.post('/login', async(req,res) => {
         try {
-            let result = await checkUser(req.body.usernameInput, req.body.passwordInput);
+            let result = await userData.checkUser(req.body.usernameInput, req.body.passwordInput);
             if (result.authenticatedUser === true) {
               req.session.user = {username: req.body.usernameInput};
               res.redirect('/');
