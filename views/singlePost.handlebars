@@ -25,6 +25,10 @@
         {{/if}}
         <h1>{{post.topic}}</h1>
         <p>{{post.body}}</p>
+        <div class="like-container">
+            <button id="like" class="like-button">Like</button>
+            <button id="dislike" class="like-button">Dislike</button>
+        </div>
     </div>
     {{#if user}}
     <div class="form-container" id="comment-form-container">
@@ -39,13 +43,11 @@
         <h3>Comments</h3>
         <ul>
             {{#each commentsList}}
-            <p>{{body}}</p>
+            <div class="comment-container">
+                <p>{{body}}</p>
+            </div>
             {{/each}}
+            
         </ul>
     </div>
-
-    {{!-- <form action="reports/createReport" method="post">
-    <input type="hidden" name="postId" value="{{post._id}}">
-    <button type="submit">Submit</button>
-    </form> --}}
 </main>
