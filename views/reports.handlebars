@@ -1,0 +1,17 @@
+<h1>Reports</h1>
+
+<main>
+    <ul>
+        {{#each list}}
+        <li>
+            <a href="/posts/{{post._id}}">{{post.topic}}</a>
+            <p>{{body}}</p>
+            <form method="delete" action="/reports//deleteReported">
+            <input type="hidden" name="postId" value="{{post._id}}">
+            <input type="hidden" name="_id" value="{{_id}}">
+            <button type="submit">Delete</button>
+            </form>
+        </li>
+        {{/each}}
+    </ul>
+</main>

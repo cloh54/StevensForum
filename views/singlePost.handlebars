@@ -7,3 +7,8 @@
     <p>{{body}}</p>
     {{/each}}
 </ul>
+
+<form action="reports/createReport" method="post">
+<input type="hidden" name="postId" value="{{post._id}}">
+<button type="submit">Submit</button>
+</form>
