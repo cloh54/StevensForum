@@ -52,7 +52,7 @@ const checkUser = async (username, password) => {
     if (user === null) throw 'Either the username or password is invalid';
     let comparePassword = await bcrypt.compare(password, user.password);
     if (!comparePassword) throw 'Either the username or password is invalid';
-    return {authenticatedUser: true};
+    return user._id.toString();
 };
 
 const getUserById = async (id) => {

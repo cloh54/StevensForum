@@ -42,7 +42,8 @@ router
             }
         } catch (e) {
             res.status(400);
-            res.render('createPost', {error: e});
+            console.log(e);
+            res.render('createPost', {error: e, user: req.session.user});
         }
     }) 
 
@@ -80,9 +81,9 @@ router
     
     router.post('/login', async(req,res) => {
         try {
-            let result = await userData.checkUser(req.body.usernameInput, req.body.passwordInput);
-            if (result.authenticatedUser === true) {
-              req.session.user = {username: req.body.usernameInput};
+            let userId = await userData.checkUser(req.body.usernameInput, req.body.passwordInput);
+            if (userId) {
+              req.session.user = {id: userId, username: req.body.usernameInput};
               res.redirect('/');
             } else {
               res.status(500).json({error: 'Internal Server Error'});

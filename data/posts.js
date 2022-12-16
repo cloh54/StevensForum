@@ -24,11 +24,16 @@ const createPost = async (userId, topic, body, tags) => {
     userId = validation.checkId(userId);
     topic = validation.checkString(topic, 'topic');
     body = validation.checkString(body, 'body');
-    if (!Array.isArray(tags)) throw 'Error: Tags must be an array';
-    for (let i=0; i<tags.length; i++) {
-        tags[i] = checkString(tags[i], 'tags');
+    if (!tags) {
+        tags = []
+    } else {
+        tags = validation.checkString(tags, 'tags');
+        tags = tags.split(',');
+        for (let i=0; i<tags.length; i++) {
+            tags[i] = tags[i].trim().toLowerCase();
+        }
     }
-
+    
     const currDate = new Date();
     const postCollection = await posts();
     let newPost = {
