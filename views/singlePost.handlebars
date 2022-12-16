@@ -28,7 +28,7 @@
     </div>
     {{#if user}}
     <div class="form-container" id="comment-form-container">
-        <form id="comment-form" action="/posts/{{post._id}}" action="post">
+        <form id="comment-form" action="/posts/{{post._id}}/comment" method="post">
             <label for="comment">What is your answer?</label>
             <input type="text" name="comment">
             <input type="submit" value="Comment">

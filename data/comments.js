@@ -30,7 +30,7 @@ const createComment = async (userId, postId, body) => {
     let insertInfo = await commentCollection.insertOne(newComment);
     if (!insertInfo.acknowledged || !insertInfo.insertedId) throw 'Could not add comment!';
     let newId = insertInfo.insertedId.toString();
-    await postsCollection.addCommentToPost(postId, newId);
+    //await postsCollection.addCommentToPost(postId, newId);
 
     console.log('create comment');
     return await getCommentById(newId);
@@ -74,4 +74,5 @@ module.exports = {
     createComment,
     editComment,
     removeComment,
+    getCommentById
 };

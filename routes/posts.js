@@ -68,13 +68,13 @@ router.get('/:id', async (req,res) => {
     }
 });
 
-router.post('/:id', async (req, res) => {
+router.post('/:id/comment', async (req, res) => {
     try {
         let userId = req.session.user.id;
         console.log('post comment');
-        let comment = await commentsData.createComment(userId, req.params.id, req.body.comment);
-        console.log(comment);
-        res.redirect(`posts/${req.params.id}`);
+        let post = await postsData.addCommentToPost(userId, req.params.id, req.body.comment);
+        console.log(post);
+        res.redirect(`/posts/${req.params.id}`);
     } catch (e) {
         res.render('error', {error: e});
     }

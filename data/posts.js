@@ -106,9 +106,9 @@ const getPostById = async (id) => {
     return post;
 };
 
-const addCommentToPost = async (postId, commentId) => {
-    postId = validation.checkId(postId);
-    commentId = validation.checkId(commentId);
+const addCommentToPost = async (userId, postId, body) => {
+    let newComment = await commentsCollection.createComment(userId, postId, body);
+    let commentId = newComment._id;
     const postCollection = await posts();
     const updatedInfo = await postCollection.updateOne(
         { _id: ObjectId(postId) },
@@ -250,7 +250,7 @@ const getSortedCommentsByPost = async (postId) => {
     let commentIds = post.comments;
     let commentList = []
     for (let i=0; i<commentIds.length; i++) {
-        commentList.push(await commentsCollection.getCommentById(commentIds[i]));
+        commentList.push(await commentsCollection.getCommentById(commentIds[i].toString()));
     }
     //sort by most recent
     commentList.sort(function (a, b) {
