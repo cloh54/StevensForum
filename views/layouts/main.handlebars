@@ -22,6 +22,10 @@
                 <a href="/posts">Posts</a>
                 <div class="search-container">
                     <form id="search" action="/search" method="post">
+                        <select id="searchOptions" name="searchOptions">
+                            <option value="topic">topic</option>
+                            <option value="tags">tags</option>
+                        </select>
                         <input type="text" placeholder="Search..." name="search">
                         <button type="submit"><i class="fa fa-search"></i></button>
                     </form>

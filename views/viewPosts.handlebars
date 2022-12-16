@@ -2,11 +2,20 @@
     I'm assuming this page is for viewing posts that match the search
 -->
 
-<h1>Results for "{{word}}"</h1>
 <main>
+    {{#if searchBy}}
+        <h1>Results for "{{input}}"</h1>
+        <h2>Searching by {{searchBy}}</h2>
+    {{#else}}
+        <h1>View newest posts</h1>
+    {{/if}}
     <ul>
         {{#each posts}}
-        <li><a href="/posts/{{id}}">{{topic}}</a></li>
+        <li>
+            <div class="post-li">
+                <a href="/posts/{{id}}">{{topic}}</a>
+            </div>
+        </li>
         {{/each}}
     </ul>
 </main>

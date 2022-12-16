@@ -3,10 +3,19 @@ const router = express.Router();
 const data = require('../data');
 const postsData = data.posts;
 
+router.get('/', async (req, res) => {
+    try {
+        let posts = await postsData.getAllPostsByNewest();
+        res.render('viewPosts', {posts: posts});
+    } catch (e) {
+        res.render('error', {error: e});
+    }
+});
+
 router.post('/searchByTopic', async (req,res) => {
     try {
         let posts = await postsData.searchPostByTopic(req.body.search);
-        res.render('viewPosts', {word: req.body.search, posts: posts});
+        res.render('viewPosts', {input: req.body.search, posts: posts, searchBy: 'topic'});
     } catch (e) {
         res.render('error', {error: e});
     }
@@ -24,8 +33,8 @@ router.get('/:id', async (req,res) => {
 
 router.post('/searchByTags', async (req, res) => {
     try {
-        let posts = await postsData.searchPostByTags();
-        res.render('viewPosts', {posts: posts});
+        let posts = await postsData.searchPostByTags(req.body.tags);
+        res.render('viewPosts', {input: req.body.tags, posts: posts, searchBy: 'tags'});
     } catch (e) {
         res.render('error', {error: e});
     }
