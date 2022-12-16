@@ -230,7 +230,7 @@ const getTrendingPosts = async () => {
     let posts_sorted = posts.sort(function(a, b)  {
         return b.likes.length - a.likes.length;
     });
-    let trending = posts_sorted.slice(0,5);
+    let trending = posts_sorted.slice(0,10);
     return trending;
 }
 

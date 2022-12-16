@@ -77,7 +77,7 @@ header a:hover {
     float: right;
     margin-right: 20px;
     background-color:rgb(91, 217, 255);
-    border: 1px solid rgb(45, 116, 138);
+    border: none;
     padding: 0;
     margin-top: 2px;
 }
@@ -102,4 +102,60 @@ h1 {
     border-radius: 20px;
     border: 1px solid #4b4b4b;
     margin: 10px 80px;
+}
+
+.form-container {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 30px 80px;
+    margin: 10px 50px;
+    overflow: hidden;
+}
+
+.form-container input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical;
+}
+
+.form-container input[type=submit] {
+    background-color: rgb(91, 217, 255);
+    color: black;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.form-container input[type=submit]:hover {
+    background-color: rgb(45, 116, 138);
+}
+
+.form-container p {
+    margin-bottom: 3px;
+}
+
+.link-container {
+    float: right;
+}
+
+.error-container {
+    border-radius: 5px;
+    padding: 30px 80px;
+    margin: 30px 100px;
+    background-color: #c76f6f;
+    color: white;
+}
+
+.radio {
+    padding: 8px;
+}
+
+.radio-group {
+    margin-bottom: 20px;
 }

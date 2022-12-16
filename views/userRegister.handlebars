@@ -1,5 +1,10 @@
 <main>
     <h1>Register</h1>
+    {{#if error}}
+    <div class="error-container" id="register-error">
+        <p>Invalid registration</p>
+    </div>
+    {{/if}}
     <div class="form-container">
         <form id="register-form" action="/register" method="post">
             <label for="usernameInput">Enter username: </label>
@@ -7,23 +12,23 @@
 
             <label for="passwordInput">Enter password: </label>
             <input type="password" id="passwordInput" name="passwordInput">
-
-            <p>Please select:</p>
-            <input type="radio" id="student" name="student" value="student">
-            <label for="student">I am a student</label>
-            <input type="radio" id="admin" name="admin" value="admin">
-            <label for="admin">I am a professor or a staff member</label>
+            <div class="radio-group">
+                <p>Please select:</p>
+                <div class="radio">
+                    <input type="radio" id="student" name="role" value="student">
+                    <label for="student">I am a student</label>
+                </div>
+                <div class="radio">
+                    <input type="radio" id="admin" name="role" value="admin">
+                    <label for="admin">I am a professor or a staff member</label>
+                </div>
+            </div>
+            
 
             <input type="submit" value="Register">
         </form>
-    </div>
-    {{#if error}}
-    <div class="error-container" id="register-error">
-        <p>Invalid username and/or password</p>
-    </div>
-    {{/if}}
-
-    <div class="link-container">
-        <a href="/login">Already have an account? Click here to log in</a>
+        <div class="link-container">
+            <a href="/login">Already have an account? Click here to log in</a>
+        </div>
     </div>
 </main>
