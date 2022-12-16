@@ -6,7 +6,7 @@ const postsData = data.posts;
 router.get('/', async (req, res) => {
     try {
         let posts = await postsData.getAllPostsByNewest();
-        res.render('viewPosts', {posts: posts});
+        res.render('viewPosts', {posts: posts, newPosts: true});
     } catch (e) {
         res.render('error', {error: e});
     }
