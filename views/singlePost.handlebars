@@ -1,14 +1,42 @@
-<h1>{{post.topic}}</h1>
-<p>{{post.body}}</p>
+<main>
+    <div class="modal" id="report-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2>Report this post</h2>
+            </div>
+            <div class="modal-form">
+                <div class="form-container">
+                    <form id="report-form" action="reports/createReport" method="post">
+                        <label for="report">Why are you reporting this post?</label>
+                        <input type="text" name="report">
+                        <button type="submit" value="Submit">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <div class="post-container">
+        {{#if user}}
+        <div class="report-button-container">
+            <button class="report-button" id="report-button">Report</button>
+        </div>
+        {{/if}}
+        <h1>{{post.topic}}</h1>
+        <p>{{post.body}}</p>
+    </div>
 
-<ul>
-    {{#each commentsList}}
-    <p>{{body}}</p>
-    {{/each}}
-</ul>
+    <div class="comment-container">
+        <ul>
+            {{#each commentsList}}
+            <p>{{body}}</p>
+            {{/each}}
+        </ul>
+    </div>
 
-<form action="reports/createReport" method="post">
-<input type="hidden" name="postId" value="{{post._id}}">
-<button type="submit">Submit</button>
-</form>
+    {{!-- <form action="reports/createReport" method="post">
+    <input type="hidden" name="postId" value="{{post._id}}">
+    <button type="submit">Submit</button>
+    </form> --}}
+</main>
