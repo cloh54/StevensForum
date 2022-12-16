@@ -12,7 +12,11 @@ router
     .route('/')
     .get(async (req, res) => {
         const trendingPosts = await postData.getTrendingPosts();
-        res.render('homepage', {posts: trendingPosts});
+        if (req.session.user) {
+            res.render('homepage', {user: req.session.user, posts: trendingPosts});
+        } else {
+            res.render('homepage', {posts: trendingPosts});
+        }
     })
 
 router
@@ -21,7 +25,7 @@ router
         if (!req.session.user) {
             res.redirect('/login');
         } else {
-            res.render('createPost');
+            res.render('createPost', {user: req.session.user});
         }
     })
     .post(async (req, res) => {
@@ -31,7 +35,11 @@ router
             const body = req.body.body;
             const tags = req.body.tags; // this will be an array
             let post = await postData.createPost(userId, topic, body, tags);
-            res.render('singlePost', {post: post});
+            if (req.session.user) {
+                res.render('singlePost', {post: post, user: req.session.user});
+            } else {
+                res.render('singlePost', {post: post});
+            }
         } catch (e) {
             res.status(400);
             res.render('createPost', {error: e});
@@ -64,9 +72,10 @@ router
 
     router.get('/login', async (req, res) => {
         if (req.session.user) {
-            res.redirect('/');
+            res.redirect('/', {user: req.session.user});
+        } else {
+            res.render('userLogin');
         }
-        res.render('userLogin');
     });
     
     router.post('/login', async(req,res) => {
@@ -87,8 +96,9 @@ router
     router.get('/profile', async(req,res) => {
         if (!req.session.user) {
             res.redirect('/login');
+        } else {
+            res.render('profile', {user: req.session.user});
         }
-        res.render('profile', {});
     });
     
     router.get('/logout', async(req,res) => {
