@@ -11,7 +11,8 @@ router
     //routes for homepage
     .route('/')
     .get(async (req, res) => {
-        res.render('homepage', {})
+        const trendingPosts = await postData.getTrendingPosts();
+        res.render('homepage', {posts: trendingPosts});
     })
 
 router

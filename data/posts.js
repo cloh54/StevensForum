@@ -210,7 +210,7 @@ const searchPostByTags = async (input) => {
 
 const getAllPosts = async () => {
     const postCollection = await posts();
-    const posts = postCollection.find({}).toArray();
+    const posts = await postCollection.find({}).toArray();
     return posts;
 };
 
@@ -219,6 +219,19 @@ const getAllPostsByNewest = async () => {
     allPosts.sort(function(a,b) {
         return b.date - a.date;
     });
+};
+
+const getTrendingPosts = async () => {
+    // get posts from the last week
+    let currDate = new Date();
+    let lastWeek = new Date(currDate.setDate(currDate.getDate()-7));
+    const postCollection = await posts();
+    const posts = await postCollection.find({'lastUpdated': { $gte: lastWeek}});
+    let posts_sorted = posts.sort(function(a, b)  {
+        return b.likes.length - a.likes.length;
+    });
+    let trending = posts_sorted.slice(0,5);
+    return trending;
 }
 
 module.exports = {
@@ -236,5 +249,6 @@ module.exports = {
     removeDislike,
     searchPostByTopic,
     searchPostByTags,
-    getAllPostsByNewest
+    getAllPostsByNewest,
+    getTrendingPosts
 };

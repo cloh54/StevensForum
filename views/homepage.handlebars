@@ -1,5 +1,13 @@
 <main>
-    <div>
-        <h1>Trending</h1>
+    <div class="trending-posts">
+        <ul>
+        {{#each posts}}
+        <li>
+            <div class="post-li">
+                <a href="/posts/{{id}}">{{topic}}</a>
+            </div>
+        </li>
+        {{/each}}
+    </ul>
     </div>
 </main>
