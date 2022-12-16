@@ -18,8 +18,9 @@ router
     .get(async (req, res) => {
         if (!req.session.user) {
             res.redirect('/login');
+        } else {
+            res.render('createPost');
         }
-        res.render('createPost');
     })
     .post(async (req, res) => {
         try {
