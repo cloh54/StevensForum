@@ -16,7 +16,7 @@ header {
     float: right;
 }
 
-.navbar a {
+.search-create-post a {
     float: left;
     display: block;
     color: black;
@@ -24,17 +24,17 @@ header {
     text-decoration: none;
 }
 
-.navbar a:hover {
+.search-create-post a:hover {
     background-color: #e4e4e4;
 }
 
-.navbar input[type=text] {
+.search-create-post input[type=text] {
     padding: 6px;
     margin-top: 8px;
     border: 1px solid rgb(87, 86, 86);
 }
 
-.navbar .search-container button {
+.search-create-post .search-container button {
     padding: 6px 10px;
     margin-top: 8px;
     margin-right: 16px;
@@ -43,6 +43,6 @@ header {
     cursor: pointer;
 }
 
-.navbar .search-container button:hover {
+.search-create-post .search-container button:hover {
     background: #c5c4c4;
 }
