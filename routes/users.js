@@ -7,58 +7,19 @@ const data = require('../data');
 const postData = data.posts;
 
 router
-
-    //routes for user actions on homepage
+    //routes for homepage
     .route('/')
     .get(async (req, res) => {
-        try {
-            const user = req.session.user;
-            if (user === undefined || user === null) {
-                res.render('homepage');
-            } else {
-                res.render('homepage', {user: req.session.user})
-            }
-        } catch (e) {
-            res.status(500);
-        }
-    })
-
-router
-    .route('/search')
-    .get(async (req, res) => {
-        try {
-            const searchString = req.body.searchString;
-            let posts = await postData.searchPostByTopic(searchString);
-            res.render('viewPosts', {posts: posts});
-        } catch (e) {
-            res.status(400);
-        }
-    })
-
-router 
-    .route('/tag')
-    .get(async (req, res) => {
-        try {
-            const searchTag = req.body.searchTag;
-            let posts = await postData.searchPostByTags(searchTag);
-            res.render('viewPosts', {posts: posts});
-        } catch (e) {
-            res.status(400);
-        }
+        res.render('homepage', {})
     })
 
 router
     .route('/createPost')
     .get(async (req, res) => {
-        try {
-            const user = req.session.user;
-            if (user === undefined || user === null) {
-                res.redirect('/users/login');
-            }
-            res.render('createPost');
-        } catch (e) {
-            res.status(500);
+        if (!req.session.user) {
+            res.redirect('/login');
         }
+        res.render('createPost');
     })
     .post(async (req, res) => {
         try {
@@ -72,8 +33,7 @@ router
             res.status(400);
             res.render('createPost', {error: e});
         }
-    })
-
+    }) 
 
 
     //routes for user account
@@ -96,8 +56,15 @@ router
           } catch (e) {
             res.status(400).render('userRegister', {error: e});
           }
-    });
+        });
     
+
+    router.get('/login', async (req, res) => {
+        if (req.session.user) {
+            res.redirect('/');
+        }
+        res.render('userLogin');
+    });
     
     router.post('/login', async(req,res) => {
         try {
@@ -115,10 +82,16 @@ router
     
     
     router.get('/profile', async(req,res) => {
+        if (!req.session.user) {
+            res.redirect('/login');
+        }
         res.render('profile', {});
     });
     
     router.get('/logout', async(req,res) => {
+        if (!req.session.user) {
+            res.redirect('/login');
+        }
         req.session.destroy();
         res.render('logout');
     });

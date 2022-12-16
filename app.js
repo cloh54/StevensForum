@@ -17,15 +17,6 @@ app.use(
     })
 );
 
-app.use(async (req, res, next) => {
-    if (!req.session.user) {
-        return res.status(403).render('userLogin');
-    } else {
-        next();
-    }
-});
-
-
 app.engine('handlebars', exphbs.engine({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
