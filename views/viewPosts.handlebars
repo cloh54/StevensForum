@@ -1,3 +1,5 @@
+<!--
+    I'm assuming this page is for viewing posts that match the search
 <main>
     <div class="search-create-post">
         <div class="search-container">
@@ -8,4 +10,14 @@
         </div>
         <a href="/createPost"></a>
     </div>
+</main>
+-->
+
+<h1>Results for "{{word}}"</h1>
+<main>
+    <ul>
+        {{#each posts}}
+        <li><a href="/posts/{{id}}">{{topic}}</a></li>
+        {{/each}}
+    </ul>
 </main>

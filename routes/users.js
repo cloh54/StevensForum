@@ -122,3 +122,5 @@ router
         req.session.destroy();
         res.render('logout');
     });
+
+    module.exports = router;
