@@ -18,8 +18,8 @@ Properties to the user collection
 const createUser = async (username, password, admin) => {
     // username and password are strings
     // admin is boolean
-    if (!username || typeof username !== 'string') throw 'You must provide a username!';
-    if (!password || typeof password !== 'string') throw 'You must provide a password!';
+    username = checkString(username, 'username');
+    password = checkString(password, 'password');
     if (password.length < 8) throw 'Password must be at least 8 characters long!';
 
     const userCollection = await users();
@@ -43,8 +43,8 @@ const createUser = async (username, password, admin) => {
 };
 
 const checkUser = async (username, password) => {
-    if (!username || typeof username !== 'string') throw 'You must provide a username!';
-    if (!password || typeof password !== 'string') throw 'You must provide a password!';
+    username = checkString(username, 'username');
+    password = checkString(password, 'password');
     if (password.length < 8) throw 'Password must be at least 8 characters long!';
 
     const userCollection = await users();

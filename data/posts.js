@@ -4,6 +4,7 @@ const posts = mongoCollections.posts;
 const usersCollection = require('./users');
 const validation = require('./validation');
 const { ObjectId } = require('mongodb');
+const { checkString } = require('./validation');
 /*
 Properties of post collection
 1. _id: ObjectId
@@ -21,11 +22,11 @@ Properties of post collection
 const createPost = async (userId, topic, body, tags) => {
     // if there are no tags, it will be an empty array
     userId = validation.checkId(userId);
-    if (!topic || typeof topic !== 'string') throw 'You must provide a topic!';
-    if (!body || typeof body !== 'string') throw 'You must provide a body!';
+    topic = checkString(topic, 'topic');
+    body = checkString(body, 'body');
     if (!Array.isArray(tags)) throw 'Error: Tags must be an array';
     for (let i=0; i<tags.length; i++) {
-        if (typeof tags[i] !== 'string') throw 'Error: Every element of tags needs to be a string';
+        tags[i] = checkString(tags[i], 'tags');
     }
 
     const currDate = new Date();
@@ -53,11 +54,11 @@ const createPost = async (userId, topic, body, tags) => {
 
 const editPost = async (id, topic, body, tags) => {
     id = validation.checkId(id);
-    if (!topic || typeof topic !== 'string') throw 'You must provide a topic!';
-    if (!body || typeof body !== 'string') throw 'You must provide a body!';
+    topic = checkString(topic, 'topic');
+    body = checkString(body, 'body');
     if (!Array.isArray(tags)) throw 'Error: Tags must be an array';
     for (let i=0; i<tags.length; i++) {
-        if (typeof tags[i] !== 'string') throw 'Error: Every element of tags needs to be a string';
+        tags[i] = checkString(tags[i], 'tags');
     }
 
     const postCollection = await posts();
@@ -181,8 +182,7 @@ const removeDislike = async (postId, userId) => {
 };
 
 const searchPostByTopic = async (input) => {
-    if (!input || typeof input !== 'string') throw 'You must provide an input!';
-    input = input.trim();
+    input = checkString(input, 'input');
     const postCollection = await posts();
     let reg = new RegExp('.*' + input + '.*', 'i');
     let posts = await postCollection.find({topic: reg}).toArray();
@@ -191,7 +191,7 @@ const searchPostByTopic = async (input) => {
 
 const searchPostByTags = async (input) => {
     // input is a comma separated string
-    if (!input || typeof input !== 'string') throw 'You must provide an input!';
+    input = checkString(input, 'input');
     let inputArr = input.split(',');
     for (let i=0; i<inputArr.length; i++) {
         inputArr[i] = inputArr[i].trim().toLowerCase();
