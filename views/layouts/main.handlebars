@@ -8,7 +8,7 @@
     <body>
         <header>
             <div class="header">
-                <h1>Stevens Institute of Technology Forum</h1>
+                <h1 class="title">Stevens Institute of Technology Forum</h1>
                 <div class="header-right">
                     {{#if user}}
                         <a href="/profile">Profile</a>
@@ -18,19 +18,23 @@
                 </div>
             </div>
             <div class="navbar">
-                <a href="/">Home</a>
-                <a href="/posts">Posts</a>
-                <div class="search-container">
-                    <form id="search" action="/search" method="post">
-                        <select id="searchOptions" name="searchOptions">
-                            <option value="topic">topic</option>
-                            <option value="tags">tags</option>
-                        </select>
-                        <input type="text" placeholder="Search..." name="search">
-                        <button type="submit"><i class="fa fa-search"></i></button>
-                    </form>
+                <div class="navbar-left">
+                    <a href="/">Home</a>
+                    <a href="/posts">Posts</a>
+                    <div class="search-container">
+                        <form id="search" action="/search" method="post">
+                            <select id="searchOptions" name="searchOptions">
+                                <option value="topic">topic</option>
+                                <option value="tags">tags</option>
+                            </select>
+                            <input type="text" placeholder="Search..." name="search">
+                            <button type="submit">Go</button>
+                        </form>
+                    </div>
                 </div>
-                <a href="/createPost"></a>
+                <button class="create-post-link">
+                    <a href="/createPost">Create a Post</a>
+                </button>
             </div>
         </header>
 

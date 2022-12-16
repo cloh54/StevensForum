@@ -2,6 +2,7 @@
 const mongoCollections = require('../config/mongoCollections');
 const posts = mongoCollections.posts;
 const usersCollection = require('./users');
+const commentsCollection = require('./comments');
 const validation = require('./validation');
 const { ObjectId } = require('mongodb');
 const { checkString } = require('./validation');
@@ -80,6 +81,12 @@ const editPost = async (id, topic, body, tags) => {
 
 const removePost = async (id) => {
     id = validation.checkId(id);
+    //delete comments from post
+    const post = await getPostById(id);
+    let commentArr = post.comments;
+    for (let i=0; i<commentArr.length; i++) {
+        await commentsCollection.removeComment(commentArr[i]);
+    }
     const postCollection = await posts();
     const deletionInfo = await postCollection.deleteOne({_id: ObjectId(id)});
 

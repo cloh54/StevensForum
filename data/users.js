@@ -30,8 +30,8 @@ const createUser = async (username, password, admin) => {
 
     let newUser = {
         username: username,
-        password: hash,
-        admin: admin,
+        password: hash, 
+        admin: admin,     
         posts: [],
         comments: []
     };
