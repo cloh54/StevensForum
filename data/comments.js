@@ -3,7 +3,6 @@ const comments = mongoCollections.comments;
 const postsCollection = require('./posts');
 const validation = require('./validation');
 const { ObjectId } = require('mongodb');
-const { checkString } = require('./validation');
 /*
 Properties of comment collection
 1. _id: ObjectId
@@ -17,7 +16,7 @@ Properties of comment collection
 const createComment = async (userId, postId, body) => {
     userId = validation.checkId(userId);
     postId = validation.checkId(postId);
-    body = checkString(body, 'body');
+    body = validation.checkString(body, 'body');
 
     const currDate = new Date();
     const commentCollection = await comments();
@@ -37,7 +36,7 @@ const createComment = async (userId, postId, body) => {
 
 const editComment = async (id, body) => {
     id = validation.checkId(id);
-    body = checkString(body, 'body');
+    body = validation.checkString(body, 'body');
 
     const currDate = new Date();
     const commentCollection = await comments();

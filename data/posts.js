@@ -5,7 +5,6 @@ const usersCollection = require('./users');
 const commentsCollection = require('./comments');
 const validation = require('./validation');
 const { ObjectId } = require('mongodb');
-const { checkString } = require('./validation');
 /*
 Properties of post collection
 1. _id: ObjectId
@@ -23,8 +22,8 @@ Properties of post collection
 const createPost = async (userId, topic, body, tags) => {
     // if there are no tags, it will be an empty array
     userId = validation.checkId(userId);
-    topic = checkString(topic, 'topic');
-    body = checkString(body, 'body');
+    topic = validation.checkString(topic, 'topic');
+    body = validation.checkString(body, 'body');
     if (!Array.isArray(tags)) throw 'Error: Tags must be an array';
     for (let i=0; i<tags.length; i++) {
         tags[i] = checkString(tags[i], 'tags');
@@ -55,11 +54,11 @@ const createPost = async (userId, topic, body, tags) => {
 
 const editPost = async (id, topic, body, tags) => {
     id = validation.checkId(id);
-    topic = checkString(topic, 'topic');
-    body = checkString(body, 'body');
+    topic = validation.checkString(topic, 'topic');
+    body = validation.checkString(body, 'body');
     if (!Array.isArray(tags)) throw 'Error: Tags must be an array';
     for (let i=0; i<tags.length; i++) {
-        tags[i] = checkString(tags[i], 'tags');
+        tags[i] = validation.checkString(tags[i], 'tags');
     }
 
     const postCollection = await posts();
@@ -189,7 +188,7 @@ const removeDislike = async (postId, userId) => {
 };
 
 const searchPostByTopic = async (input) => {
-    input = checkString(input, 'input');
+    input = validation.checkString(input, 'input');
     const postCollection = await posts();
     let reg = new RegExp('.*' + input + '.*', 'i');
     let posts = await postCollection.find({topic: reg}).toArray();
@@ -198,20 +197,20 @@ const searchPostByTopic = async (input) => {
 
 const searchPostByTags = async (input) => {
     // input is a comma separated string
-    input = checkString(input, 'input');
+    input = validation.checkString(input, 'input');
     let inputArr = input.split(',');
     for (let i=0; i<inputArr.length; i++) {
         inputArr[i] = inputArr[i].trim().toLowerCase();
     }
     const postCollection = await posts();
-    let posts = await postCollection.find({ tags: { $all: inputArr} });
-    return posts;
+    let postsArr = await postCollection.find({ tags: { $all: inputArr} });
+    return postsArr;
 };
 
 const getAllPosts = async () => {
     const postCollection = await posts();
-    const posts = await postCollection.find({}).toArray();
-    return posts;
+    const postsArr = await postCollection.find({}).toArray();
+    return postsArr;
 };
 
 const getAllPostsByNewest = async () => {
@@ -225,9 +224,16 @@ const getTrendingPosts = async () => {
     // get posts from the last week
     let currDate = new Date();
     let lastWeek = new Date(currDate.setDate(currDate.getDate()-7));
-    const postCollection = await posts();
-    const posts = await postCollection.find({'lastUpdated': { $gte: lastWeek}});
-    let posts_sorted = posts.sort(function(a, b)  {
+    let allPosts = await getAllPosts();
+    let currPosts = [];
+    for (let i=0; i<allPosts.length; i++) {
+        if (allPosts[i].lastUpdated >= lastWeek) {
+            currPosts.push(allPosts[i]);
+        }
+    }
+    console.log('getTrendingPosts');
+    console.log(currPosts);
+    let posts_sorted = currPosts.sort(function(a, b)  {
         return b.likes.length - a.likes.length;
     });
     let trending = posts_sorted.slice(0,10);

@@ -6,9 +6,10 @@
     {{#if searchBy}}
         <h1>Results for "{{input}}"</h1>
         <h2>Searching by {{searchBy}}</h2>
+    {{/if}}
     {{#else}}
         <h1>View newest posts</h1>
-    {{/if}}
+    {{/else}}
     <ul>
         {{#each posts}}
         <li>

@@ -11,7 +11,7 @@ Properties of reports collection
 */
 
 const createReport = async (postId, body) => {
-    body = checkString(body, 'body');
+    body = validation.checkString(body, 'body');
     postId = validation.checkId(postId);
     const reportCollection = await reports();
     let newReport = {
