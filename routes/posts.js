@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const data = require('../data');
 const postsData = data.posts;
+const commentsData = data.comments;
 
 router.get('/', async (req, res) => {
     try {
@@ -55,7 +56,8 @@ router
 router.get('/:id', async (req,res) => {
     try {
         let post = await postsData.getPostById(req.params.id);
-        let commentsList = post.comments;
+        let commentsList = await postsData.getSortedCommentsByPost(req.params.id);
+        console.log(commentsList);
         if (req.session.user) {
             res.render('singlePost', {post: post, commentsList: commentsList, user: req.session.user});
         } else {
@@ -66,6 +68,16 @@ router.get('/:id', async (req,res) => {
     }
 });
 
-
+router.post('/:id', async (req, res) => {
+    try {
+        let userId = req.session.user.id;
+        console.log('post comment');
+        let comment = await commentsData.createComment(userId, req.params.id, req.body.comment);
+        console.log(comment);
+        res.redirect(`posts/${req.params.id}`);
+    } catch (e) {
+        res.render('error', {error: e});
+    }
+});
 
 module.exports = router;

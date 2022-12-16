@@ -243,6 +243,20 @@ const getTrendingPosts = async () => {
     });
     let trending = posts_sorted.slice(0,10);
     return trending;
+};
+
+const getSortedCommentsByPost = async (postId) => {
+    let post = await getPostById(postId);
+    let commentIds = post.comments;
+    let commentList = []
+    for (let i=0; i<commentIds.length; i++) {
+        commentList.push(await commentsCollection.getCommentById(commentIds[i]));
+    }
+    //sort by most recent
+    commentList.sort(function (a, b) {
+        return b.date - a.date;
+    });
+    return commentList;
 }
 
 module.exports = {
@@ -261,5 +275,6 @@ module.exports = {
     searchPostByTopic,
     searchPostByTags,
     getAllPostsByNewest,
-    getTrendingPosts
+    getTrendingPosts,
+    getSortedCommentsByPost
 };

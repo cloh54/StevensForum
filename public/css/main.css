@@ -242,3 +242,20 @@ ul {
 .post-li a {
     text-decoration: none;
 }
+
+.post-container {
+    border: 1px solid rgb(87, 86, 86);
+    background-color: #faf0f0;
+    padding: 20px 50px;
+    margin: 30px 80px;
+}
+
+.comments-container {
+    margin: 20px 100px;
+}
+
+#comment-form-container {
+    padding: 20px 50px;
+    margin: 0px 80px;
+    background-color: #faf0f0;
+}
