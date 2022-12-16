@@ -191,13 +191,14 @@ const searchPostByTopic = async (input) => {
     input = validation.checkString(input, 'input');
     const postCollection = await posts();
     let reg = new RegExp('.*' + input + '.*', 'i');
-    let posts = await postCollection.find({topic: reg}).toArray();
-    return posts;
+    let postsArr = await postCollection.find({topic: reg}).toArray();
+    return postsArr;
 };
 
 const searchPostByTags = async (input) => {
     // input is a comma separated string
     input = validation.checkString(input, 'input');
+    console.log(input);
     let inputArr = input.split(',');
     for (let i=0; i<inputArr.length; i++) {
         inputArr[i] = inputArr[i].trim().toLowerCase();

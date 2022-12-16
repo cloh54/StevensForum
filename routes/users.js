@@ -38,20 +38,6 @@ router
         }
     }) 
 
-router
-    .route('/search')
-    .post(async (req, res) => {
-        try {
-            if (req.body.searchOptions === 'topic') {
-                res.redirect('/posts/searchByTopic');
-            } else {
-                res.redirect('/posts/searchByTags');
-            }
-        } catch (e) {
-            res.status(500);
-        }
-    })
-
     //routes for user account
 
     router.get('/register', async (req, res) => {
