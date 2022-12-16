@@ -190,12 +190,29 @@ const searchPostByTopic = async (input) => {
 };
 
 const searchPostByTags = async (input) => {
+    // input is a comma separated string
     if (!input || typeof input !== 'string') throw 'You must provide an input!';
-    input = input.trim();
+    let inputArr = input.split(',');
+    for (let i=0; i<inputArr.length; i++) {
+        inputArr[i] = inputArr[i].trim().toLowerCase();
+    }
     const postCollection = await posts();
-    let posts = await postCollection.find({ tags: {$elemMatch: { $eq: input } } });
+    let posts = await postCollection.find({ tags: { $all: inputArr} });
     return posts;
 };
+
+const getAllPosts = async () => {
+    const postCollection = await posts();
+    const posts = postCollection.find({}).toArray();
+    return posts;
+};
+
+const getAllPostsByNewest = async () => {
+    const allPosts = await getAllPosts();
+    allPosts.sort(function(a,b) {
+        return b.date - a.date;
+    });
+}
 
 module.exports = {
     createPost,
@@ -211,5 +228,6 @@ module.exports = {
     removeLike,
     removeDislike,
     searchPostByTopic,
-    searchPostByTags
+    searchPostByTags,
+    getAllPostsByNewest
 };
