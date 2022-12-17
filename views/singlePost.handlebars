@@ -24,7 +24,14 @@
         </div>
         {{/if}}
         <h1>{{post.topic}}</h1>
+
         <p>{{post.body}}</p>
+        <div class="tag-container">
+            <h4>Tags</h4>
+            {{#each post.tags}}
+            <p class="tag">{{this}}</p>
+            {{/each}}
+        </div>
         <div class="like-container">
             <button id="like" class="like-button">Like</button>
             <button id="dislike" class="like-button">Dislike</button>

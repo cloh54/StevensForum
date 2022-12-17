@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-//const { route } = require('../../../Lab8/routes/people');
 const { posts } = require('../data');
 const data = require('../data');
 const postData = data.posts;
@@ -33,7 +32,7 @@ router
             const userId = req.session.user.id;
             const topic = req.body.topic;
             const body = req.body.body;
-            const tags = req.body.tags; // this will be an array
+            const tags = req.body.tags; 
             let post = await postData.createPost(userId, topic, body, tags);
             if (req.session.user) {
                 res.render('singlePost', {post: post, user: req.session.user});
