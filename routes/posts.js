@@ -60,10 +60,11 @@ router.get('/:id', async (req,res) => {
     try {
         let post = await postsData.getPostById(req.params.id);
         let commentsList = await postsData.getSortedCommentsByPost(req.params.id);
+        let likeCount = await postsData.getLikeCount(req.params.id);
         if (req.session.user) {
-            res.render('singlePost', {post: post, commentsList: commentsList, user: req.session.user});
+            res.render('singlePost', {likeCount: likeCount, post: post, commentsList: commentsList, user: req.session.user});
         } else {
-            res.render('singlePost', {post: post, commentsList: commentsList});
+            res.render('singlePost', {likeCount: likeCount, post: post, commentsList: commentsList});
         }
     } catch (e) {
         res.render('error', {error: e});

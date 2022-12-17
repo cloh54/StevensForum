@@ -85,7 +85,10 @@
             {{/each}}
         </div>
         <div class="like-container">
-            <button id="like" class="like-button">Like</button>
+            <div class="like-count">
+                <button id="like" class="like-button">Like</button>
+                <p>{{likeCount}}</p>
+            </div>
             <button id="dislike" class="like-button">Dislike</button>
         </div>
     </div>
@@ -103,7 +106,7 @@
         <ul>
             {{#each commentsList}}
             <div class="comment-container">
-                <p><strong>{{userName}}</strong></p>
+                <p class="user">{{userName}}</p>
                 <p>{{body}}</p>
             </div>
             {{/each}}
