@@ -18,11 +18,13 @@
     </div>
 
     <div class="post-container">
-        {{#if user}}
-        <div class="report-button-container">
-            <button class="report-button" id="report-button">Report</button>
+        <div class="button-container">
+            {{#if user}}
+            <div class="report-button-container">
+                <button class="report-button" id="report-button">Report</button>
+            </div>
+            {{/if}}
         </div>
-        {{/if}}
         <h1>{{post.topic}}</h1>
 
         <p>{{post.body}}</p>
