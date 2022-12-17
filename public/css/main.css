@@ -273,3 +273,11 @@ ul {
 .delete-submit {
     padding: 10px 0px;
 }
+
+.tag-container p {
+    display: inline;
+}
+
+.tag-container {
+    padding-bottom: 10px;
+}
