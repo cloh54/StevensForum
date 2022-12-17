@@ -43,7 +43,7 @@ const getReportById = async (id) => {
 const getAllReports = async () => {
     const reportCollection = await reports();
     const allReports = await reportCollection.find({}).toArray();
-    if (allReports) throw 'Could not get all reports';
+    //if (allReports) throw 'No reports'; // if there are no reports, we don't want an error
     return allReports;
 };
 

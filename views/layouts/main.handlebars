@@ -22,7 +22,9 @@
                     <a href="/">Home</a>
                     <a href="/about">About</a>
                     <a href="/posts">Posts</a>
-                    
+                    {{#if user.admin}}
+                        <a href="/reports">Reports</a>
+                    {{/if}}
                     <div class="search-container">
                         <form id="search" action="/posts/search" method="post">
                             <select id="searchOptions" name="searchOptions">

@@ -71,8 +71,11 @@ router.get('/about', async (req, res) => {
     
     router.post('/register', async (req, res) => {
         try {
-            
-            let result = await userData.createUser(req.body.usernameInput, req.body.passwordInput);
+            let adminStatus = false;
+            if (req.body.role === 'admin') {
+                adminStatus = true;
+            }
+            let result = await userData.createUser(req.body.usernameInput, req.body.passwordInput, adminStatus);
             if (result) {
               res.redirect('/');
             } else {
@@ -94,15 +97,17 @@ router.get('/about', async (req, res) => {
     
     router.post('/login', async(req,res) => {
         try {
-            let userId = await userData.checkUser(req.body.usernameInput, req.body.passwordInput);
-            if (userId) {
-              req.session.user = {id: userId, username: req.body.usernameInput};
-              res.redirect('/');
+            let user = await userData.checkUser(req.body.usernameInput, req.body.passwordInput);
+            console.log(user);
+            if (user) {
+                req.session.user = {id: user._id.toString(), username: req.body.usernameInput, admin: user.admin};
+                console.log(req.session.user);
+                res.redirect('/');
             } else {
-              res.status(500).json({error: 'Internal Server Error'});
+                res.status(500).json({error: 'Internal Server Error'});
             }
           } catch (e) {
-            res.status(400).render('userLogin', {error: e});
+                res.status(400).render('userLogin', {error: e});
           }
     });
     

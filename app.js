@@ -29,6 +29,8 @@ app.engine('handlebars', exphbs.engine({defaultLayout: 'main',
                                           lte: (v1, v2) => v1 <= v2,
                                           gte: (v1, v2) => v1 >= v2,
                                           eqid: (v1, v2) => v1.toString() === v2.toString(),
+                                          not: (v1) => !v1,
+                                          empt: (v1) => v1.length === 0,
                                           and() {
                                               return Array.prototype.every.call(arguments, Boolean);
                                           },

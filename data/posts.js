@@ -35,7 +35,7 @@ const createPost = async (userId, userName, topic, body, tags) => {
     }
     const currDate = new Date();
     const postCollection = await posts();
-    user = await usersCollection.getUserById(userId);
+    let user = await usersCollection.getUserById(userId);
     console.log(userName);
     let newPost = {
         userId: ObjectId(userId),

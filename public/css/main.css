@@ -298,3 +298,11 @@ ul {
     text-align: center
 }
 
+.warning-container {
+    border-radius: 5px;
+    padding: 30px 80px;
+    margin: 30px 100px;
+    background-color: #e4c767;
+    color: black;
+    border: 1px solid #c0a755;
+}
