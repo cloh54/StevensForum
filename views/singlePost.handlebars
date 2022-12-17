@@ -60,3 +60,30 @@
         </ul>
     </div>
 </main>
+
+<script>
+$('#like').click(function() {
+$.ajax({
+  url: '/posts/addLike/' + post._id,
+  method: 'POST',
+  success: function(data) {
+    $('#like').text(data.likeCount);
+  }
+});
+$(this).addClass('clicked').prop('disabled', true);
+$('#dislike').removeClass('clicked').prop('disabled', false);
+});
+
+$('#dislike').click(function() {
+$.ajax({
+  url: '/posts/addDislike/' + post._id,
+  method: 'POST',
+  success: function(data) {
+    $('#dislike').text(data.likeCount);
+  }
+});
+$(this).addClass('clicked').prop('disabled', true);
+$('#like').removeClass('clicked').prop('disabled', false);
+});
+
+</script>
