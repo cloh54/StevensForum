@@ -113,6 +113,8 @@
 </main>
 
 <script>
+let post = {{{post}};
+
 $('#like').click(function() {
 $.ajax({
   url: '/posts/addLike/' + post._id,
