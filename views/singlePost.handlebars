@@ -116,12 +116,12 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
-let post = $(this);
 
 $('#like').click(function() {
-    console.log('did this work');
+let id = '{{post._id}}';
+
 $.ajax({
-  url: '/posts/addLike/' + post._id,
+  url: '/posts/addLike/' + id,
   method: 'POST',
   success: function(data) {
     $('#like').text(data.likeCount);
@@ -132,8 +132,9 @@ $('#dislike').removeClass('clicked').prop('disabled', false);
 });
 
 $('#dislike').click(function() {
+let id = '{{post._id}}';
 $.ajax({
-  url: '/posts/addDislike/' + post._id,
+  url: '/posts/addDislike/' + id,
   method: 'POST',
   success: function(data) {
     $('#dislike').text(data.likeCount);
