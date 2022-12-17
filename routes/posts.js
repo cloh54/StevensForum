@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const data = require('../data');
+const { getUsername } = require('../data/users');
 const postsData = data.posts;
 const commentsData = data.comments;
 const usersData = data.users;
+const reportsData = data.reports;
 
 router.get('/', async (req, res) => {
     try {
@@ -68,11 +70,32 @@ router.get('/:id', async (req,res) => {
     }
 });
 
+router.post('/:id/edit', async (req, res) => {
+    try {
+        console.log('edit post');
+        let editedPost = await postsData.editPost(req.params.id, req.body.topic, req.body.body, req.body.tags);
+        res.redirect(`/posts/${req.params.id}`);
+    } catch (e) {
+        res.render('error', {error: e});
+    }
+});
+
+router.post('/:id/delete', async (req, res) => {
+    try {
+        console.log('route delete post');
+        await postsData.removePost(req.params.id);
+        res.redirect('/');
+    } catch (e) {
+        res.render('error', {error: e});
+    }
+});
+
 router.post('/:id/comment', async (req, res) => {
     try {
         let userId = req.session.user.id;
+        let userName = req.session.user.username;
         console.log('post comment');
-        let post = await postsData.addCommentToPost(userId, req.params.id, req.body.comment);
+        let post = await postsData.addCommentToPost(userId, userName, req.params.id, req.body.comment);
         console.log(post);
         res.redirect(`/posts/${req.params.id}`);
     } catch (e) {
@@ -80,10 +103,20 @@ router.post('/:id/comment', async (req, res) => {
     }
 });
 
+router.post('/:id/createReport', async (req, res) => {
+    try {
+        await reportsData.createReport(req.params.id, req.body.report);
+        res.redirect(`/posts/${req.params.id}`);
+    } catch (e) {
+        res.render('error', {error: e});
+    }
+    
+});
+
 router.post('/addLike/:id', async (req, res) => {
     try {
         await postsData.addLike(req.params.id);
-        let likecount = postsData.getLikeCount(req.params.id);
+        let likecount = await postsData.getLikeCount(req.params.id);
         res.json({likecount: likecount});
     } catch (e) {
         res.render('error', {error: e});
@@ -93,7 +126,7 @@ router.post('/addLike/:id', async (req, res) => {
 router.post('/addDislike/:id', async (req, res) => {
     try {
         await postsData.addDislike(req.params.id);
-        let likecount = postsData.getDislikeCount(req.params.id);
+        let likecount = await postsData.getDislikeCount(req.params.id);
         res.json({likecount: likecount});
     } catch (e) {
         res.render('error', {error: e});

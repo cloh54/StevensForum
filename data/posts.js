@@ -19,7 +19,7 @@ Properties of post collection
 10. lastUpdated: Date
 */
 
-const createPost = async (userId, topic, body, tags) => {
+const createPost = async (userId, userName, topic, body, tags) => {
     // if there are no tags, it will be an empty array
     userId = validation.checkId(userId);
     topic = validation.checkString(topic, 'topic');
@@ -33,11 +33,13 @@ const createPost = async (userId, topic, body, tags) => {
             tags[i] = tags[i].trim().toLowerCase();
         }
     }
-    
     const currDate = new Date();
     const postCollection = await posts();
+    user = await usersCollection.getUserById(userId);
+    console.log(userName);
     let newPost = {
         userId: ObjectId(userId),
+        userName: userName,
         topic: topic,
         body: body,
         comments: [],
@@ -47,7 +49,7 @@ const createPost = async (userId, topic, body, tags) => {
         dateCreated: currDate,
         lastUpdated: currDate
     };
-
+    
     const insertInfo = await postCollection.insertOne(newPost);
     if (!insertInfo.acknowledged || !insertInfo.insertedId) throw 'Could not add post';
     let newId = insertInfo.insertedId.toString();
@@ -58,12 +60,18 @@ const createPost = async (userId, topic, body, tags) => {
 };
 
 const editPost = async (id, topic, body, tags) => {
+    console.log('postData editpost');
     id = validation.checkId(id);
     topic = validation.checkString(topic, 'topic');
     body = validation.checkString(body, 'body');
-    if (!Array.isArray(tags)) throw 'Error: Tags must be an array';
-    for (let i=0; i<tags.length; i++) {
-        tags[i] = validation.checkString(tags[i], 'tags');
+    if (!tags) {
+        tags = []
+    } else {
+        tags = validation.checkString(tags, 'tags');
+        tags = tags.split(',');
+        for (let i=0; i<tags.length; i++) {
+            tags[i] = tags[i].trim().toLowerCase();
+        }
     }
 
     const postCollection = await posts();
@@ -84,12 +92,13 @@ const editPost = async (id, topic, body, tags) => {
 };
 
 const removePost = async (id) => {
+    console.log('postsData removePost');
     id = validation.checkId(id);
     //delete comments from post
     const post = await getPostById(id);
     let commentArr = post.comments;
     for (let i=0; i<commentArr.length; i++) {
-        await commentsCollection.removeComment(commentArr[i]);
+        await commentsCollection.removeComment(commentArr[i].toString());
     }
     const postCollection = await posts();
     const deletionInfo = await postCollection.deleteOne({_id: ObjectId(id)});
@@ -106,8 +115,8 @@ const getPostById = async (id) => {
     return post;
 };
 
-const addCommentToPost = async (userId, postId, body) => {
-    let newComment = await commentsCollection.createComment(userId, postId, body);
+const addCommentToPost = async (userId, userName, postId, body) => {
+    let newComment = await commentsCollection.createComment(userId, userName, postId, body);
     let commentId = newComment._id;
     const postCollection = await posts();
     const updatedInfo = await postCollection.updateOne(

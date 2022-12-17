@@ -24,16 +24,6 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.post('/createReport', async (req, res) => {
-    try {
-        await reportsData.createReport(req.body.postId);
-        res.redirect(`/posts/${postId}`, {user: req.session.user});
-    } catch (e) {
-        res.render('error', {error: e});
-    }
-    
-});
-
 router.delete('/deleteReported', async (req, res) => {
     try {
         await postsData.removePost(req.body.postId);

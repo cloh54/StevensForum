@@ -30,10 +30,11 @@ router
     .post(async (req, res) => {
         try {
             const userId = req.session.user.id;
+            const userName = req.session.user.username;
             const topic = req.body.topic;
             const body = req.body.body;
             const tags = req.body.tags; 
-            let post = await postData.createPost(userId, topic, body, tags);
+            let post = await postData.createPost(userId, userName, topic, body, tags);
             if (req.session.user) {
                 res.render('singlePost', {post: post, user: req.session.user});
             } else {
