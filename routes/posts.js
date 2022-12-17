@@ -3,6 +3,7 @@ const router = express.Router();
 const data = require('../data');
 const postsData = data.posts;
 const commentsData = data.comments;
+const usersData = data.users;
 
 router.get('/', async (req, res) => {
     try {
@@ -57,7 +58,6 @@ router.get('/:id', async (req,res) => {
     try {
         let post = await postsData.getPostById(req.params.id);
         let commentsList = await postsData.getSortedCommentsByPost(req.params.id);
-        console.log(commentsList);
         if (req.session.user) {
             res.render('singlePost', {post: post, commentsList: commentsList, user: req.session.user});
         } else {

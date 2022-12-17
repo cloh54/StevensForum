@@ -208,8 +208,10 @@ const searchPostByTags = async (input) => {
     for (let i=0; i<inputArr.length; i++) {
         inputArr[i] = inputArr[i].trim().toLowerCase();
     }
+    console.log(inputArr);
     const postCollection = await posts();
-    let postsArr = await postCollection.find({ tags: { $all: inputArr} });
+    let postsArr = await postCollection.find({ tags: { $all: inputArr} }).toArray();
+    console.log(postsArr);
     return postsArr;
 };
 
@@ -222,8 +224,9 @@ const getAllPosts = async () => {
 const getAllPostsByNewest = async () => {
     const allPosts = await getAllPosts();
     allPosts.sort(function(a,b) {
-        return b.date - a.date;
+        return b.lastUpdated - a.lastUpdated;
     });
+    console.log(allPosts);
     return allPosts;
 };
 
@@ -254,7 +257,7 @@ const getSortedCommentsByPost = async (postId) => {
     }
     //sort by most recent
     commentList.sort(function (a, b) {
-        return b.date - a.date;
+        return b.lastUpdated - a.lastUpdated;
     });
     return commentList;
 }
