@@ -4,6 +4,7 @@ const data = require('../data');
 const postsData = data.posts;
 const commentsData = data.comments;
 const usersData = data.users;
+const reportsData = data.reports;
 
 router.get('/', async (req, res) => {
     try {
@@ -68,12 +69,24 @@ router.get('/:id', async (req,res) => {
     }
 });
 
-router.put('/:id', async (req, res) => {
-
+router.post('/:id/edit', async (req, res) => {
+    try {
+        console.log('edit post');
+        let editedPost = await postsData.editPost(req.params.id, req.body.topic, req.body.body, req.body.tags);
+        res.redirect(`/posts/${req.params.id}`);
+    } catch (e) {
+        res.render('error', {error: e});
+    }
 });
 
-router.delete('/:id', async (req, res) => {
-
+router.post('/:id/delete', async (req, res) => {
+    try {
+        console.log('route delete post');
+        await postsData.removePost(req.params.id);
+        res.redirect('/');
+    } catch (e) {
+        res.render('error', {error: e});
+    }
 });
 
 router.post('/:id/comment', async (req, res) => {
@@ -86,6 +99,16 @@ router.post('/:id/comment', async (req, res) => {
     } catch (e) {
         res.render('error', {error: e});
     }
+});
+
+router.post('/:id/createReport', async (req, res) => {
+    try {
+        await reportsData.createReport(req.params.id, req.body.report);
+        res.redirect(`/posts/${req.params.id}`);
+    } catch (e) {
+        res.render('error', {error: e});
+    }
+    
 });
 
 router.post('/addLike/:id', async (req, res) => {
