@@ -273,3 +273,27 @@ ul {
 .delete-submit {
     padding: 10px 0px;
 }
+
+.tag-container p {
+    display: inline;
+}
+
+.tag-container {
+    padding-bottom: 10px;
+}
+
+.post-li a {
+    font-weight: bold;
+}
+
+.users {
+    font-weight: lighter;
+}
+
+.description {
+    padding: 10px 30px;
+}
+
+.honor-board h2{
+    text-align: center
+}

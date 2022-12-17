@@ -47,6 +47,19 @@ router
         }
     }) 
 
+router.get('/about', async (req, res) => {
+    try {
+        if (!req.session.user) {
+            res.render('about');
+        } else {
+            res.render('about', {user: req.session.user})
+        }
+    } catch (e) {
+        res.status(500);
+        res.render('error', {error: e});
+    }
+})
+
     //routes for user account
 
     router.get('/register', async (req, res) => {
