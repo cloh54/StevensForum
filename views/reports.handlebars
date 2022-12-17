@@ -8,13 +8,20 @@
         <ul>
             {{#each list}}
             <li>
-                <a href="/posts/{{post._id}}">{{post.topic}}</a>
-                <p>{{body}}</p>
-                <form method="delete" action="/reports//deleteReported">
-                <input type="hidden" name="postId" value="{{post._id}}">
-                <input type="hidden" name="_id" value="{{_id}}">
-                <button type="submit">Delete</button>
-                </form>
+                <div class="post-li">
+                    <a href="/posts/{{post._id}}">{{post.topic}}</a>
+                    <p>{{body}}</p>
+                    <form method="post" action="/reports/deleteReportandPost">
+                        <input type="hidden" name="postId" value="{{post._id}}">
+                        <input type="hidden" name="_id" value="{{_id}}">
+                        <button type="submit">Delete Post and Resolve Issue</button>
+                    </form>
+                    <form id="discardReport" action="/reports/deleteReport" method="post">
+                        <input type="hidden" name="_id" value="{{_id}}">
+                        <button type="submit">Discard</button>
+                    </form>
+                </div>
+
             </li>
             {{/each}}
         </ul>

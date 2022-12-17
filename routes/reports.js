@@ -25,10 +25,14 @@ router.get('/', async (req, res) => {
             const reportListWithPosts = [];
             for (let i=0; i<reportList.length; i++) {
                 let report = reportList[i];
-                const post = await postsData.getPostById(report.postId.toString());
-                reportListWithPosts.push({_id: report._id,
-                                          post: post,
-                                          body: report.body});
+                try {
+                    const post = await postsData.getPostById(report.postId.toString());
+                    reportListWithPosts.push({_id: report._id,
+                        post: post,
+                        body: report.body});
+                } catch (e) {
+                    await reportsData.removeReport(report._id.toString());
+                }
             }
             console.log(reportListWithPosts);
             res.render('reports', {list: reportListWithPosts, user: req.session.user});
@@ -38,15 +42,25 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.delete('/deleteReported', async (req, res) => {
+router.post('/deleteReportandPost', async (req, res) => {
     try {
         await postsData.removePost(req.body.postId);
         await reportsData.removeReport(req.body._id);
-        res.redirect('/reports/', {user: req.session.user});
+        res.redirect('/reports');
     } catch (e) {
         res.render('error', {error: e});
     }
 });
 
+router.post('/deleteReport', async (req, res) => {
+    try {
+        console.log(deleteReport);
+        await reportsData.removeReport(req.body._id);
+        res.redirect('/reports');
+    } catch (e) {
+        res.status(400);
+        res.render('error', {error: e});
+    }
+})
 
 module.exports = router;

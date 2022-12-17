@@ -32,8 +32,10 @@
                         <input type="text" id="body" name="body">
 
                         <label for="tags">Tags</label>
-                        <p>Please add a comma separated list of tags to help describe your post.</p>
-                        <p>Tags should be lower-case</p>
+                        <div class="inform">
+                            <p>Please add a comma separated list of tags to help describe your post.</p>
+                            <p>Tags should be lower-case</p>
+                        </div>
                         <input type="text" id="tags" name="tags">
 
                         <input type="submit" value="Submit">
@@ -64,12 +66,12 @@
     <div class="post-container">
         <div class="button-container">
             {{#if user}}
-            {{#if (eqid user.id post.userId)}}
-            <div class="edit-delete-post-button-container">
-                <button class="edit-button" id="edit-post-button">Edit</button>
-                <button class="delete" id="delete-post-button">Delete</button>
-            </div>
-            {{/if}}
+                {{#if (eqid user.id post.userId)}}
+                <div class="edit-delete-post-button-container">
+                    <button class="edit-button" id="edit-post-button">Edit</button>
+                    <button class="delete" id="delete-post-button">Delete</button>
+                </div>
+                {{/if}}
             <div class="report-button-container">
                 <button class="report-button" id="report-button">Report</button>
             </div>

@@ -3,6 +3,7 @@ const mongoCollections = require('../config/mongoCollections');
 const posts = mongoCollections.posts;
 const usersCollection = require('./users');
 const commentsCollection = require('./comments');
+const reportsCollection = require('./reports');
 const validation = require('./validation');
 const { ObjectId } = require('mongodb');
 /*
@@ -100,6 +101,12 @@ const removePost = async (id) => {
     for (let i=0; i<commentArr.length; i++) {
         await commentsCollection.removeComment(commentArr[i].toString());
     }
+    // delete any reports on this post
+    const reports = await reportsCollection.getReportsByPost(id);
+    for (let i=0; i<reports.length; i++) {
+        await reportsCollection.removeReport(reports[i]._id.toString());
+    }
+    
     const postCollection = await posts();
     const deletionInfo = await postCollection.deleteOne({_id: ObjectId(id)});
 

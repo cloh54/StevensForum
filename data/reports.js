@@ -47,8 +47,15 @@ const getAllReports = async () => {
     return allReports;
 };
 
+const getReportsByPost = async (postId) => {
+    const reportCollection = await reports();
+    const reportsForPost = await reportCollection.find({postId: Object(postId)}).toArray();
+    return reportsForPost;
+}
+
 module.exports = {
     createReport,
     removeReport,
-    getAllReports
+    getAllReports,
+    getReportsByPost
 };
