@@ -63,6 +63,10 @@ const getUserById = async (id) => {
     return user;
 };
 
+const getUsername = async () => {
+    return user.username;
+}
+
 const addPostToUser = async (userId, postId) => {
     userId = validation.checkId(userId);
     postId = validation.checkId(postId);
@@ -115,6 +119,7 @@ module.exports = {
     createUser,
     checkUser,
     getUserById,
+    getUsername,
     addPostToUser,
     removePostFromUser,
     addCommentToUser,

@@ -19,7 +19,7 @@ Properties of post collection
 10. lastUpdated: Date
 */
 
-const createPost = async (userId, topic, body, tags) => {
+const createPost = async (userId, userName, topic, body, tags) => {
     // if there are no tags, it will be an empty array
     userId = validation.checkId(userId);
     topic = validation.checkString(topic, 'topic');
@@ -33,11 +33,13 @@ const createPost = async (userId, topic, body, tags) => {
             tags[i] = tags[i].trim().toLowerCase();
         }
     }
-    
     const currDate = new Date();
     const postCollection = await posts();
+    user = await usersCollection.getUserById(userId);
+    console.log(userName);
     let newPost = {
         userId: ObjectId(userId),
+        userName: userName,
         topic: topic,
         body: body,
         comments: [],
@@ -47,7 +49,7 @@ const createPost = async (userId, topic, body, tags) => {
         dateCreated: currDate,
         lastUpdated: currDate
     };
-
+    
     const insertInfo = await postCollection.insertOne(newPost);
     if (!insertInfo.acknowledged || !insertInfo.insertedId) throw 'Could not add post';
     let newId = insertInfo.insertedId.toString();
@@ -113,8 +115,8 @@ const getPostById = async (id) => {
     return post;
 };
 
-const addCommentToPost = async (userId, postId, body) => {
-    let newComment = await commentsCollection.createComment(userId, postId, body);
+const addCommentToPost = async (userId, userName, postId, body) => {
+    let newComment = await commentsCollection.createComment(userId, userName, postId, body);
     let commentId = newComment._id;
     const postCollection = await posts();
     const updatedInfo = await postCollection.updateOne(

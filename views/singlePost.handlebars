@@ -76,7 +76,7 @@
             {{/if}}
         </div>
         <h1>{{post.topic}}</h1>
-
+        <h2>{{post.userName}}</h2>
         <p>{{post.body}}</p>
         <div class="tag-container">
             <p>Tags: </p>
@@ -103,6 +103,7 @@
         <ul>
             {{#each commentsList}}
             <div class="comment-container">
+                <p><strong>{{userName}}</strong></p>
                 <p>{{body}}</p>
             </div>
             {{/each}}
