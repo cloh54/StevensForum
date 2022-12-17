@@ -80,4 +80,25 @@ router.post('/:id/comment', async (req, res) => {
     }
 });
 
+router.post('/addLike/:id', async (req, res) => {
+    try {
+        await postsData.addLike(req.params.id);
+        let likecount = postsData.getLikeCount(req.params.id);
+        res.json({likecount: likecount});
+    } catch (e) {
+        res.render('error', {error: e});
+    }
+});
+
+router.post('/addDislike/:id', async (req, res) => {
+    try {
+        await postsData.addDislike(req.params.id);
+        let likecount = postsData.getDislikeCount(req.params.id);
+        res.json({likecount: likecount});
+    } catch (e) {
+        res.render('error', {error: e});
+    }
+});
+
+
 module.exports = router;
