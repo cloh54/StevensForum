@@ -112,8 +112,14 @@
     </div>
 </main>
 
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
+let post = $(this);
+
 $('#like').click(function() {
+    console.log('did this work');
 $.ajax({
   url: '/posts/addLike/' + post._id,
   method: 'POST',
@@ -136,5 +142,4 @@ $.ajax({
 $(this).addClass('clicked').prop('disabled', true);
 $('#like').removeClass('clicked').prop('disabled', false);
 });
-
 </script>
