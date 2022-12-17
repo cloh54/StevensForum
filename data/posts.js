@@ -60,12 +60,18 @@ const createPost = async (userId, userName, topic, body, tags) => {
 };
 
 const editPost = async (id, topic, body, tags) => {
+    console.log('postData editpost');
     id = validation.checkId(id);
     topic = validation.checkString(topic, 'topic');
     body = validation.checkString(body, 'body');
-    if (!Array.isArray(tags)) throw 'Error: Tags must be an array';
-    for (let i=0; i<tags.length; i++) {
-        tags[i] = validation.checkString(tags[i], 'tags');
+    if (!tags) {
+        tags = []
+    } else {
+        tags = validation.checkString(tags, 'tags');
+        tags = tags.split(',');
+        for (let i=0; i<tags.length; i++) {
+            tags[i] = tags[i].trim().toLowerCase();
+        }
     }
 
     const postCollection = await posts();
@@ -86,12 +92,13 @@ const editPost = async (id, topic, body, tags) => {
 };
 
 const removePost = async (id) => {
+    console.log('postsData removePost');
     id = validation.checkId(id);
     //delete comments from post
     const post = await getPostById(id);
     let commentArr = post.comments;
     for (let i=0; i<commentArr.length; i++) {
-        await commentsCollection.removeComment(commentArr[i]);
+        await commentsCollection.removeComment(commentArr[i].toString());
     }
     const postCollection = await posts();
     const deletionInfo = await postCollection.deleteOne({_id: ObjectId(id)});

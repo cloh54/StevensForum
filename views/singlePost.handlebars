@@ -2,12 +2,12 @@
     <div class="modal" id="report-modal">
         <div class="modal-content">
             <div class="modal-header">
-                <span class="close">&times;</span>
+                <span class="close" id="close-report">&times;</span>
                 <h2>Report this post</h2>
             </div>
             <div class="modal-form">
                 <div class="form-container">
-                    <form id="report-form" action="/reports/createReport" method="post">
+                    <form id="report-form" action="/posts/{{post._id}}/createReport" method="post">
                         <label for="report">Why are you reporting this post?</label>
                         <input type="text" name="report">
                         <input type="submit" value="Submit">
@@ -16,13 +16,65 @@
             </div>
         </div>
     </div>
+    <div class="modal" id="edit-post-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close" id="close-edit-post">&times;</span>
+                <h2>Edit this post</h2>
+            </div>
+            <div class="model-form">
+                <div class="form-container">
+                    <form id="edit-post-form" action="/posts/{{post._id}}/edit" method="post">
+                        <label for="topic">Topic</label>
+                        <input type="text" id="topic" name="topic">
 
-    <div class="post-container">
-        {{#if user}}
-        <div class="report-button-container">
-            <button class="report-button" id="report-button">Report</button>
+                        <label for="body">What is your question?</label>
+                        <input type="text" id="body" name="body">
+
+                        <label for="tags">Tags</label>
+                        <p>Please add a comma separated list of tags to help describe your post.</p>
+                        <p>Tags should be lower-case</p>
+                        <input type="text" id="tags" name="tags">
+
+                        <input type="submit" value="Submit">
+                    </form>
+                </div>
+            </div>
         </div>
-        {{/if}} 
+    </div>
+    <div class="modal" id="delete-post-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close" id="close-delete-post">&times;</span>
+                <h2>Delete this post</h2>
+            </div>
+            <div class="model-form">
+                <div class="form-container">
+                    <form id="delete-post-form" action="/posts/{{post._id}}/delete" method="post">
+                        <label for="topic">Are you sure you want to delete this post? All comments made under this post will also be deleted.</label>
+                        <input type="checkbox" id="delete" name="delete" value="delete">
+                        <div class="delete-submit">
+                            <input type="submit" value="Submit">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-container">
+        <div class="button-container">
+            {{#if user}}
+            {{#if (eqid user.id post.userId)}}
+            <div class="edit-delete-post-button-container">
+                <button class="edit-button" id="edit-post-button">Edit</button>
+                <button class="delete" id="delete-post-button">Delete</button>
+            </div>
+            {{/if}}
+            <div class="report-button-container">
+                <button class="report-button" id="report-button">Report</button>
+            </div>
+            {{/if}}
+        </div>
         <h1>{{post.topic}}</h1>
         <h2>{{post.userName}}</h2>
         <p>{{post.body}}</p>
