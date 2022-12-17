@@ -20,7 +20,22 @@ app.use(
     })
 );
 
-app.engine('handlebars', exphbs.engine({defaultLayout: 'main'}));
+app.engine('handlebars', exphbs.engine({defaultLayout: 'main',
+                                        helpers: {
+                                          eq: (v1, v2) => v1 === v2,
+                                          ne: (v1, v2) => v1 !== v2,
+                                          lt: (v1, v2) => v1 < v2,
+                                          gt: (v1, v2) => v1 > v2,
+                                          lte: (v1, v2) => v1 <= v2,
+                                          gte: (v1, v2) => v1 >= v2,
+                                          eqid: (v1, v2) => v1.toString() === v2.toString(),
+                                          and() {
+                                              return Array.prototype.every.call(arguments, Boolean);
+                                          },
+                                          or() {
+                                              return Array.prototype.slice.call(arguments, 0, -1).some(Boolean);
+                                          }
+                                        }}));
 app.set('view engine', 'handlebars');
 
 configRoutes(app);

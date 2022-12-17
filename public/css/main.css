@@ -226,7 +226,7 @@ h1 {
     border-radius: 3px;
 }
 
-.report-button:hover {
+button:hover {
     cursor: pointer;
 }
 
@@ -268,4 +268,8 @@ ul {
     border: 1px solid rgb(87, 86, 86); 
     padding: 30px 50px;
     background-color: #faf0f0;
+}
+
+.delete-submit {
+    padding: 10px 0px;
 }
