@@ -22,9 +22,9 @@
         <div class="report-button-container">
             <button class="report-button" id="report-button">Report</button>
         </div>
-        {{/if}}
+        {{/if}} 
         <h1>{{post.topic}}</h1>
-
+        <h2>{{post.userName}}</h2>
         <p>{{post.body}}</p>
         <div class="tag-container">
             <h4>Tags</h4>
@@ -51,6 +51,7 @@
         <ul>
             {{#each commentsList}}
             <div class="comment-container">
+                <p><strong>{{userName}}</strong></p>
                 <p>{{body}}</p>
             </div>
             {{/each}}

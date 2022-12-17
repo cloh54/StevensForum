@@ -13,16 +13,17 @@ Properties of comment collection
 6. lastUpdated: Date
 */
 
-const createComment = async (userId, postId, body) => {
+const createComment = async (userId, userName, postId, body) => {
     userId = validation.checkId(userId);
     postId = validation.checkId(postId);
     body = validation.checkString(body, 'body');
-
+    console.log("test");
     const currDate = new Date();
     const commentCollection = await comments();
     let newComment = {
         userId: ObjectId(userId),
         postId: ObjectId(postId),
+        userName: userName,
         body: body,
         dateCreated: currDate,
         lastUpdated: currDate

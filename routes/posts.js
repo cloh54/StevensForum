@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const data = require('../data');
+const { getUsername } = require('../data/users');
 const postsData = data.posts;
 const commentsData = data.comments;
 const usersData = data.users;
@@ -71,8 +72,9 @@ router.get('/:id', async (req,res) => {
 router.post('/:id/comment', async (req, res) => {
     try {
         let userId = req.session.user.id;
+        let userName = req.session.user.username;
         console.log('post comment');
-        let post = await postsData.addCommentToPost(userId, req.params.id, req.body.comment);
+        let post = await postsData.addCommentToPost(userId, userName, req.params.id, req.body.comment);
         console.log(post);
         res.redirect(`/posts/${req.params.id}`);
     } catch (e) {
