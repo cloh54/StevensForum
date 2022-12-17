@@ -116,7 +116,13 @@ router.get('/about', async (req, res) => {
         if (!req.session.user) {
             res.redirect('/login');
         } else {
-            res.render('profile', {user: req.session.user});
+            let userId = req.session.user.id;
+            let user = await userData.getUserById(userId);
+            console.log(user);
+            let posts = user.posts;
+            let comments = user.comments;
+            //get the posts the user commented in. make sure they are unique
+            res.render('profile', {user: req.session.user, posts: posts, comments: comments});
         }
     });
     

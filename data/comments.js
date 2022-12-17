@@ -1,6 +1,7 @@
 const mongoCollections = require('../config/mongoCollections');
 const comments = mongoCollections.comments;
 const postsCollection = require('./posts');
+const usersCollection = require('./users');
 const validation = require('./validation');
 const { ObjectId } = require('mongodb');
 /*
@@ -32,7 +33,8 @@ const createComment = async (userId, userName, postId, body) => {
     if (!insertInfo.acknowledged || !insertInfo.insertedId) throw 'Could not add comment!';
     let newId = insertInfo.insertedId.toString();
     //await postsCollection.addCommentToPost(postId, newId);
-
+    //add comment to user
+    await usersCollection.addCommentToUser(userId, newId);
     console.log('create comment');
     return await getCommentById(newId);
 };
@@ -58,6 +60,9 @@ const editComment = async (id, body) => {
 const removeComment = async (id) => {
     id = validation.checkId(id);
     const commentCollection = await comments();
+    let comment = await getCommentById(id);
+    // remove comment from user
+    usersCollection.removeCommentFromUser(comment.userId.toString(), id);
     const deletionInfo = await commentCollection.deleteOne({_id: ObjectId(id)});
     if (deletionInfo.deletedCount === 0) throw `Could not delete coment with id of ${id}`;
     return {commentId: id, deleted: true};

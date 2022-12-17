@@ -306,3 +306,33 @@ ul {
     color: black;
     border: 1px solid #c0a755;
 }
+
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #faf0f0;
+}
+
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+}
+
+.tab button:hover {
+    background-color: #ddd;
+}
+
+.tabcontent {
+    display: none;
+    padding: 20px 30px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+.tab button.active {
+    background-color: #ccc;
+}

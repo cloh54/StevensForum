@@ -1,19 +1,43 @@
 <main>
     <h1>{{user.username}}</h1>
 
-    <div class="link-container">
+    <div class="button-container">
         <button>
             <a href="/logout">Logout</a>
         </button>
     </div>
+    
+    <div class="tab">
+        <button class="tablinks" id="posts-made-button" onclick="showTab(event, 'posts-made-container')">Posts made by {{user.username}}</button>
+        <button class="tablinks" id="posts-commented-in-button" onclick="showTab(event, 'posts-commented-in-container')">Posts {{user.username}} commented in</button>
+    </div>
 
-    <div class="user">
-        <h2>Posts made by {{user.username}}</h2>
+    <div class="tabcontent" id="posts-made-container">
+        <h3>Posts made by {{suer.username}}</h3>
         
     </div>
 
-    <div class="user">
-        <h2>Posts {{user.username}} commented in</h2>
+    <div class="tabcontent" id="posts-commented-in-container">
+        <h3>Posts {{user.username}} commented in</h3>
 
     </div>
+    
+    
 </main>
+
+<script>
+    function showTab(evt, tab) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(tab).style.display = "block";
+        evt.currentTarget.className += " active";
+    };
+    document.getElementById("posts-made-button").click();
+</script>
