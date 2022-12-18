@@ -68,8 +68,13 @@ router.get('/:id', async (req,res) => {
         let post = await postsData.getPostById(req.params.id);
         let commentsList = await postsData.getSortedCommentsByPost(req.params.id);
         let currentLikes = await postsData.getNetLikeCount(req.params.id);
+        const error = req.query.error;
         if (req.session.user) {
-            res.render('singlePost', {post: post, commentsList: commentsList, user: req.session.user, currentLikes: currentLikes});
+            if (error) {
+                res.render('singlePost', {post: post, commentsList: commentsList, user: req.session.user, currentLikes: currentLikes, error: error});
+            } else {
+                res.render('singlePost', {post: post, commentsList: commentsList, user: req.session.user, currentLikes: currentLikes});
+            }
         } else {
             res.render('singlePost', {post: post, commentsList: commentsList, currentLikes: currentLikes});
         }
@@ -107,7 +112,7 @@ router.post('/:id/comment', async (req, res) => {
         console.log(post);
         res.redirect(`/posts/${req.params.id}`);
     } catch (e) {
-        res.render('error', {error: e});
+        res.redirect(`/posts/${req.params.id}?error=${e}`);
     }
 });
 
