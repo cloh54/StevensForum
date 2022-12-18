@@ -1,5 +1,4 @@
 (function () {
-
     let reportModal = document.getElementById("report-modal");
     let reportButton = document.getElementById("report-button");
     let closeReport = document.getElementById("close-report");

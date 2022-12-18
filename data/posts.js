@@ -249,6 +249,22 @@ const getAllPostsByNewest = async () => {
     return allPosts;
 };
 
+const getAllPostsByMostCommented = async () => {
+    const allPosts = await getAllPosts();
+    allPosts.sort(function(a, b) {
+        return b.comments.length - a.comments.length;
+    })
+    return allPosts;
+};
+
+const getAllPostsByMostLiked = async () => {
+    const allPosts = await getAllPosts();
+    allPosts.sort(function(a, b) {
+        return b.likes.length - a.likes.length;
+    })
+    return allPosts;
+};
+
 const getTrendingPosts = async () => {
     // get posts from the last week
     let currDate = new Date();
@@ -297,6 +313,8 @@ module.exports = {
     searchPostByTopic,
     searchPostByTags,
     getAllPostsByNewest,
+    getAllPostsByMostCommented,
+    getAllPostsByMostLiked,
     getTrendingPosts,
     getSortedCommentsByPost
 };

@@ -1,9 +1,7 @@
 <main>
 
-    <div class="button-container">
-        <button>
-            <a href="/logout">Logout</a>
-        </button>
+    <div class="logout-container">
+        <a href="/logout">Logout</a>
     </div>
     <h1>{{user.username}}</h1>
     <div class="tab">
@@ -57,20 +55,3 @@
     
     
 </main>
-
-<script>
-    function showTab(evt, tab) {
-        var i, tabcontent, tablinks;
-        tabcontent = document.getElementsByClassName("tabcontent");
-        for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-        }
-        tablinks = document.getElementsByClassName("tablinks");
-        for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-        }
-        document.getElementById(tab).style.display = "block";
-        evt.currentTarget.className += " active";
-    };
-    document.getElementById("posts-made-button").click();
-</script>

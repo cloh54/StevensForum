@@ -6,27 +6,98 @@
     {{#if searchBy}}
         <h1>Results for "{{input}}"</h1>
         <h3>Searching by {{searchBy}}</h2>
+        <ul>
+            {{#each posts}}
+            <li>
+                <div class="post-li">
+                    <a href="/posts/{{_id}}">{{topic}}</a>
+                    <p>{{body}}</p>
+                    <div class="post-details">
+                        <p>Posted by {{userName}}</p>
+                        <p>
+                            Tags:
+                            {{#each tags}}
+                               #{{this}}
+                            {{/each}}
+                        </p>
+                    </div>
+                </div>
+            </li>
+            {{/each}}
+        </ul>
     {{/if}}
     {{#if newPosts}}
-        <h1>View newest posts</h1>
+        <h1>Posts</h1>
+        <div class="tab">
+            <button class="tablinks" id="posts-newest-button" onclick="showTab(event, 'posts-newest')">Newest</button>
+            <button class="tablinks" onclick="showTab(event, 'posts-most-commented')">Most Commented</button>
+            <button class="tablinks" onclick="showTab(event, 'posts-most-liked')">Most Liked</button>
+        </div>
+        <div class="tabcontent" id="posts-newest">
+            <h1>View newest posts</h1>
+            <ul>
+            {{#each posts.newest}}
+                <li>
+                    <div class="post-li">
+                        <a href="/posts/{{_id}}">{{topic}}</a>
+                        <p>{{body}}</p>
+                        <div class="post-details">
+                            <p>Posted by {{userName}}</p>
+                            <p>
+                                Tags:
+                                {{#each tags}}
+                                   #{{this}}
+                                {{/each}}
+                            </p>
+                        </div>
+                    </div>
+                </li>
+            {{/each}}
+            </ul>
+        </div>
+        <div class="tabcontent" id="posts-most-commented">
+            <h1>View most commented posts</h1>
+            <ul>
+            {{#each posts.mostCommented}}
+                <li>
+                    <div class="post-li">
+                        <a href="/posts/{{_id}}">{{topic}}</a>
+                        <p>{{body}}</p>
+                        <div class="post-details">
+                            <p>Posted by {{userName}}</p>
+                            <p>
+                                Tags:
+                                {{#each tags}}
+                                   #{{this}}
+                                {{/each}}
+                            </p>
+                        </div>
+                    </div>
+                </li>
+            {{/each}}
+            </ul>
+        </div>
+        <div class="tabcontent" id="posts-most-liked">
+            <h1>View most liked posts</h1>
+            <ul>
+            {{#each posts.mostLiked}}
+                <li>
+                    <div class="post-li">
+                        <a href="/posts/{{_id}}">{{topic}}</a>
+                        <p>{{body}}</p>
+                        <div class="post-details">
+                            <p>Posted by {{userName}}</p>
+                            <p>
+                                Tags:
+                                {{#each tags}}
+                                   #{{this}}
+                                {{/each}}
+                            </p>
+                        </div>
+                    </div>
+                </li>
+            {{/each}}
+            </ul>
+        </div>
     {{/if}}
-    <ul>
-        {{#each posts}}
-        <li>
-            <div class="post-li">
-                <a href="/posts/{{_id}}">{{topic}}</a>
-                <p>{{body}}</p>
-                <div class="post-details">
-                    <p>Posted by {{userName}}</p>
-                    <p>
-                        Tags:
-                        {{#each tags}}
-                           #{{this}}
-                        {{/each}}
-                    </p>
-                </div>
-            </div>
-        </li>
-        {{/each}}
-    </ul>
 </main>

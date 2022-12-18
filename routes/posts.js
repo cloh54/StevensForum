@@ -9,7 +9,14 @@ const reportsData = data.reports;
 
 router.get('/', async (req, res) => {
     try {
-        let posts = await postsData.getAllPostsByNewest();
+        let newestPosts = await postsData.getAllPostsByNewest();
+        let mostCommentedPosts = await postsData.getAllPostsByMostCommented();
+        let mostLikedPosts = await postsData.getAllPostsByMostLiked();
+        let posts = {newest: newestPosts,
+                     mostCommented: mostCommentedPosts,
+                     mostLiked: mostLikedPosts};
+
+        //console.log(posts);
         if (req.session.user) {
             res.render('viewPosts', {posts: posts, newPosts: true, user: req.session.user});
         } else {
