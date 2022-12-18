@@ -26,12 +26,18 @@ const createPost = async (userId, userName, topic, body, tags) => {
     topic = validation.checkString(topic, 'topic');
     body = validation.checkString(body, 'body');
     if (!tags) {
-        tags = []
+        tags = [];
     } else {
         tags = validation.checkString(tags, 'tags');
         tags = tags.split(',');
         for (let i=0; i<tags.length; i++) {
             tags[i] = tags[i].trim().toLowerCase();
+        }
+    }
+    console.log(tags);
+    for (let i=tags.length-1; i>=0; i--) {
+        if (tags[i].length === 0) {
+            tags.splice(i, i+1);
         }
     }
     const currDate = new Date();
@@ -66,12 +72,20 @@ const editPost = async (id, topic, body, tags) => {
     topic = validation.checkString(topic, 'topic');
     body = validation.checkString(body, 'body');
     if (!tags) {
-        tags = []
+        tags = [];
     } else {
         tags = validation.checkString(tags, 'tags');
         tags = tags.split(',');
         for (let i=0; i<tags.length; i++) {
             tags[i] = tags[i].trim().toLowerCase();
+        }
+    }
+    console.log(tags);
+    for (let i=tags.length-1; i>=0; i--) {
+        console.log(i)
+        console.log(tags[i]);
+        if (tags[i].length === 0) {
+            tags.splice(i, i+1);
         }
     }
 
