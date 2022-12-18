@@ -170,6 +170,18 @@ const getNetLikeCount = async (id) => {
     return likes-dislikes;
 };
 
+const getUserNetLikeCount = async (userId) => {
+    let total = 0;
+    const user = await usersCollection.getUserById(userId);
+    const posts = user.posts;
+    const postsList = posts.map(obj => obj.toString());
+    for (let postId of postsList) {
+        let net = await getNetLikeCount(postId);
+        total += net;
+    }
+    return total;
+};
+
 const addLike = async (postId, userId) => {
     postId = validation.checkId(postId);
     userId = validation.checkId(userId);
@@ -326,6 +338,7 @@ module.exports = {
     getLikeCount,
     getDislikeCount,
     getNetLikeCount,
+    getUserNetLikeCount,
     addLike,
     addDislike,
     removeLike,
