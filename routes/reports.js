@@ -54,7 +54,6 @@ router.post('/deleteReportandPost', async (req, res) => {
 
 router.post('/deleteReport', async (req, res) => {
     try {
-        console.log(deleteReport);
         await reportsData.removeReport(req.body._id);
         res.redirect('/reports');
     } catch (e) {

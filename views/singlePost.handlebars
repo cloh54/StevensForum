@@ -88,6 +88,7 @@
             </p>
             <p>Created on {{post.dateCreated}}</p>
         </div>
+        {{#if user}}
         <div class="like-container">
             <div class="inner-like-container">
                 <p id="likeCount">{{currentLikes}}</p>
@@ -99,6 +100,7 @@
                 <button class="btn" id="dislike"><i class="fa fa-thumbs-down fa-lg" aria-hidden="true"></i></button>
             </div>
         </div>
+        {{/if}}
     </div>
     {{#if user}}
     <div class="form-container" id="comment-form-container">
