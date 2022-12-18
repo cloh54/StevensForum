@@ -78,13 +78,13 @@ router.get('/about', async (req, res) => {
             }
             let result = await userData.createUser(req.body.usernameInput, req.body.passwordInput, adminStatus);
             if (result) {
-              res.redirect('/');
+              res.redirect('/login');
             } else {
               res.status(500).json({error: 'Internal Server Error'});
             }
-          } catch (e) {
+        } catch (e) {
             res.status(400).render('userRegister', {error: e});
-          }
+        }
         });
     
 
