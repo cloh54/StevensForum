@@ -8,15 +8,17 @@
     <div class="form-container">
         <form id="createPost" action="/createPost" method="post">
             <label for="topic">Topic</label>
-            <input type="text" id="topic" name="topic">
+            <input type="text" id="topic" name="topic" value="{{formValues.topic}}">
 
             <label for="body">Body</label>
-            <input type="text" id="body" name="body">
+            <input type="text" id="body" name="body" value="{{formValues.body}}">
 
             <label for="tags">Tags (optional)</label>
-            <p>tags must be comma seperated words</p>
-            <p>for example: computer science, python, recursion</p>
-            <input type="text" id="tags" name="tags">
+            <div class="post-details">
+                <p>tags must be comma seperated words</p>
+                <p>for example: computer science, python, recursion</p>
+            </div>
+            <input type="text" id="tags" name="tags" value="{{formValues.tags}}"> 
 
             <input type="submit" value="Submit">
         </form>
