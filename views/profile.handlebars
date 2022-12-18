@@ -19,6 +19,14 @@
                 <div class="post-li">
                     <a href="/posts/{{_id}}">{{topic}}</a>
                     <p>{{body}}</p>
+                    <div class="post-details">
+                        <p>
+                            Tags:
+                            {{#each tags}}
+                               #{{this}}
+                            {{/each}}
+                        </p>
+                    </div>
                 </div>
             </li>
             {{/each}}
@@ -33,6 +41,14 @@
                 <div class="post-li">
                     <a href="/posts/{{_id}}">{{topic}}</a>
                     <p>{{body}}</p>
+                    <div class="post-details">
+                        <p>
+                            Tags:
+                            {{#each tags}}
+                               #{{this}}
+                            {{/each}}
+                        </p>
+                    </div>
                 </div>
             </li>
             {{/each}}

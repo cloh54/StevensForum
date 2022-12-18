@@ -88,6 +88,7 @@ header a:hover {
     border: none;
     padding: 0;
     margin-top: 2px;
+    border-radius: 5px;
 }
 
 .create-post-link:hover {
@@ -360,3 +361,28 @@ ul {
     background-color: rgb(45, 116, 138);
 }
 
+.post-details {
+    padding-top: 1px;
+}
+
+.post-details p {
+    font-size: small;
+}
+
+.logout {
+    margin: 20px 30px;
+    display: flex;
+}
+
+.logout-link {
+    width: 50%;
+}
+
+.inner-logout-link {
+    margin: 15px;
+    padding: 20px;
+    border: 1px solid #4b4b4b;
+    border-radius: 8px;
+    background-color:rgb(223, 221, 173);
+    text-align: center;
+}

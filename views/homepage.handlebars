@@ -7,6 +7,15 @@
                 <div class="post-li">
                     <a href="/posts/{{_id}}">{{topic}}</a>
                     <p>{{body}}</p>
+                    <div class="post-details">
+                        <p>Posted by {{userName}}</p>
+                        <p>
+                            Tags:
+                            {{#each tags}}
+                               #{{this}}
+                            {{/each}}
+                        </p>
+                </div>
                 </div>
             </li>
             {{/each}}

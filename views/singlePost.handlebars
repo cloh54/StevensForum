@@ -78,18 +78,21 @@
             {{/if}}
         </div>
         <h1>{{post.topic}}</h1>
-        <h2>{{post.userName}}</h2>
+        <h3>Posted by {{post.userName}}</h2>
         <p>{{post.body}}</p>
-        <div class="tag-container">
-            <p>Tags: </p>
-            {{#each post.tags}}
-            <p class="tag">{{this}}</p>
-            {{/each}}
+        <div class="post-details">
+            <p>
+                Tags:
+                {{#each post.tags}}
+                    #{{this}}
+                {{/each}}
+            </p>
+            <p>Created at {{post.dateCreated}}</p>
         </div>
         <div class="like-container">
             <div class="like-count">
                 <button id="like" class="like-button">Like</button>
-                <p>{{likeCount}}</p>
+                {{likeCount}}
             </div>
             <button id="dislike" class="like-button">Dislike</button>
         </div>
