@@ -187,11 +187,22 @@ const addLike = async (postId, userId) => {
     userId = validation.checkId(userId);
     const postCollection = await posts();
     const post = await getPostById(postId);
+
+    //if already liked, unlike
+    const likeList = post.likes;
+    const strLikeList = likeList.map(obj => obj.toString());
+    if (strLikeList.includes(userId)) {
+        await removeLike(postId, userId);
+        return;
+    }
+
+    //if already disliked, remove dislike and like
     const dislikeList = post.dislikes;
-    const stringList = dislikeList.map(obj => obj.toString());
-    if (stringList.includes(userId)) {
+    const strDislikeList = dislikeList.map(obj => obj.toString());
+    if (strDislikeList.includes(userId)) {
         await removeDislike(postId, userId);
     }
+
     const updatedInfo = await postCollection.updateOne(
         { _id: ObjectId(postId) },
         { $addToSet: {likes: ObjectId(userId)} }
@@ -217,11 +228,22 @@ const addDislike = async (postId, userId) => {
     userId = validation.checkId(userId);
     const postCollection = await posts();
     const post = await getPostById(postId);
+    
+    //if already disliked, remove dislike
+    const dislikeList = post.dislikes;
+    const strDislikeList = dislikeList.map(obj => obj.toString());
+    if (strDislikeList.includes(userId)) {
+        await removeDislike(postId, userId);
+        return;
+    }
+  
+    //if already liked, unlike and dislike
     const likeList = post.likes;
-    const stringList = likeList.map(obj => obj.toString());
-    if (stringList.includes(userId)) {
+    const strLikeList = likeList.map(obj => obj.toString());
+    if (strLikeList.includes(userId)) {
         await removeLike(postId, userId);
     }
+    
     const updatedInfo = await postCollection.updateOne(
         { _id: ObjectId(postId) },
         { $addToSet: {dislikes: ObjectId(userId)} }
