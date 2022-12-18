@@ -386,3 +386,29 @@ ul {
     background-color:rgb(223, 221, 173);
     text-align: center;
 }
+
+.green{
+    color: green;
+}
+  
+.red{
+    color: red;
+}
+
+.like-container {
+    display: flex;
+    width: 100px;
+}
+
+.inner-like-container {
+    padding: 10px;
+}
+
+.inner-like-container button {
+    margin-top: 15px;
+    padding: 5px;
+}
+
+.likeCount {
+    font-size: small;
+}

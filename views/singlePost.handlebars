@@ -87,14 +87,21 @@
                     #{{this}}
                 {{/each}}
             </p>
-            <p>Created at {{post.dateCreated}}</p>
+            <p>Created on {{post.dateCreated}}</p>
         </div>
         <div class="like-container">
-            <div class="like-count">
-                <button id="like" class="like-button">Like</button>
-                {{likeCount}}
+            {{!-- <button id="like" class="like-button">Like</button>
+            {{likeCount}}
+            <button id="dislike" class="like-button">Dislike</button> --}}
+            <div class="inner-like-container">
+                <p id="likeCount">0</p>
             </div>
-            <button id="dislike" class="like-button">Dislike</button>
+            <div class="inner-like-container">
+                <button class="btn" id="like"><i class="fa fa-thumbs-up fa-lg" aria-hidden="true"></i></button>
+            </div>
+            <div class="inner-like-container">
+                <button class="btn" id="dislike"><i class="fa fa-thumbs-down fa-lg" aria-hidden="true"></i></button>
+            </div>
         </div>
     </div>
     {{#if user}}
