@@ -1,12 +1,11 @@
 <main>
-    <h1>{{user.username}}</h1>
 
     <div class="button-container">
         <button>
             <a href="/logout">Logout</a>
         </button>
     </div>
-    
+    <h1>{{user.username}}</h1>
     <div class="tab">
         <button class="tablinks" id="posts-made-button" onclick="showTab(event, 'posts-made-container')">Posts made by {{user.username}}</button>
         <button class="tablinks" id="posts-commented-in-button" onclick="showTab(event, 'posts-commented-in-container')">Posts {{user.username}} commented in</button>
