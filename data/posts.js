@@ -163,10 +163,23 @@ const getDislikeCount = async (id) => {
     return dislikes.length;
 };
 
+const getNetLikeCount = async (id) => {
+    id = validation.checkId(id);
+    let likes = await getLikeCount(id);
+    let dislikes = await getDislikeCount(id);
+    return likes-dislikes;
+};
+
 const addLike = async (postId, userId) => {
     postId = validation.checkId(postId);
     userId = validation.checkId(userId);
     const postCollection = await posts();
+    const post = await getPostById(postId);
+    const dislikeList = post.dislikes;
+    const stringList = dislikeList.map(obj => obj.toString());
+    if (stringList.includes(userId)) {
+        await removeDislike(postId, userId);
+    }
     const updatedInfo = await postCollection.updateOne(
         { _id: ObjectId(postId) },
         { $addToSet: {likes: ObjectId(userId)} }
@@ -191,6 +204,12 @@ const addDislike = async (postId, userId) => {
     postId = validation.checkId(postId);
     userId = validation.checkId(userId);
     const postCollection = await posts();
+    const post = await getPostById(postId);
+    const likeList = post.likes;
+    const stringList = likeList.map(obj => obj.toString());
+    if (stringList.includes(userId)) {
+        await removeLike(postId, userId);
+    }
     const updatedInfo = await postCollection.updateOne(
         { _id: ObjectId(postId) },
         { $addToSet: {dislikes: ObjectId(userId)} }
@@ -306,6 +325,7 @@ module.exports = {
     removeCommentFromPost,
     getLikeCount,
     getDislikeCount,
+    getNetLikeCount,
     addLike,
     addDislike,
     removeLike,

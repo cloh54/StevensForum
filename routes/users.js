@@ -3,6 +3,7 @@ const router = express.Router();
 const path = require('path');
 const { posts } = require('../data');
 const data = require('../data');
+const { getUserNetLikeCount } = require('../data/users');
 const postData = data.posts;
 const userData = data.users;
 const commentData = data.comments;
@@ -145,8 +146,10 @@ router.get('/about', async (req, res) => {
                     let p = await postData.getPostById(postIdCommentedIn[i]);
                     postsCommentedIn.push(p);
                 }
+
+                const reputation = await getUserNetLikeCount(userId);
                 
-                res.render('profile', {user: req.session.user, postsMade: postsMade, postsCommentedIn: postsCommentedIn});
+                res.render('profile', {user: req.session.user, postsMade: postsMade, postsCommentedIn: postsCommentedIn, reputation: reputation});
             } catch (e) {
                 res.status(400).render('error', {error: e});
             }

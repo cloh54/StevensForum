@@ -8,7 +8,7 @@
             <div class="modal-form">
                 <div class="form-container">
                     <form id="report-form" action="/posts/{{post._id}}/createReport" method="post">
-                        <label for="report">Why are you reporting this post?</label>
+                        <label for="report">Briefly explain your concerns.</label>
                         <input type="text" name="report">
                         <input type="submit" value="Submit">
                     </form>
@@ -28,13 +28,13 @@
                         <label for="topic">Topic</label>
                         <input type="text" id="topic" name="topic">
 
-                        <label for="body">What is your question?</label>
+                        <label for="body">Body</label>
                         <input type="text" id="body" name="body">
 
-                        <label for="tags">Tags</label>
+                        <label for="tags">Tags (optional)</label>
                         <div class="inform">
-                            <p>Please add a comma separated list of tags to help describe your post.</p>
-                            <p>Tags should be lower-case</p>
+                            <p>tags must be comma seperated words</p>
+                            <p>for example: computer science, python, recursion</p>
                         </div>
                         <input type="text" id="tags" name="tags">
 
@@ -90,11 +90,8 @@
             <p>Created on {{post.dateCreated}}</p>
         </div>
         <div class="like-container">
-            {{!-- <button id="like" class="like-button">Like</button>
-            {{likeCount}}
-            <button id="dislike" class="like-button">Dislike</button> --}}
             <div class="inner-like-container">
-                <p id="likeCount">0</p>
+                <p id="likeCount">{{currentLikes}}</p>
             </div>
             <div class="inner-like-container">
                 <button class="btn" id="like"><i class="fa fa-thumbs-up fa-lg" aria-hidden="true"></i></button>
@@ -107,7 +104,7 @@
     {{#if user}}
     <div class="form-container" id="comment-form-container">
         <form id="comment-form" action="/posts/{{post._id}}/comment" method="post">
-            <label for="comment">What is your answer?</label>
+            <label for="comment">Reply</label>
             <input type="text" name="comment">
             <input type="submit" value="Comment">
         </form>
@@ -134,25 +131,29 @@
 
 $('#like').click(function() {
 let id = '{{post._id}}';
+let userId = '{{post.userId}}';
 
 $.ajax({
-  url: '/posts/addLike/' + id,
+  url: '/posts/addLike/' + id + '/' + userId,
   method: 'POST',
   success: function(data) {
-    $('#like').text(data.likeCount);
+    $('#likeCount').text(data.likeCount);
   }
 });
 $(this).addClass('clicked').prop('disabled', true);
 $('#dislike').removeClass('clicked').prop('disabled', false);
 });
 
+
 $('#dislike').click(function() {
 let id = '{{post._id}}';
+let userId = '{{post.userId}}';
+
 $.ajax({
-  url: '/posts/addDislike/' + id,
+  url: '/posts/addDislike/' + id + '/' + userId,
   method: 'POST',
   success: function(data) {
-    $('#dislike').text(data.likeCount);
+    $('#likeCount').text(data.likeCount);
   }
 });
 $(this).addClass('clicked').prop('disabled', true);

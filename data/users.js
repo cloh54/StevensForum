@@ -3,6 +3,7 @@ const users = mongoCollections.users;
 const validation = require('./validation');
 const { ObjectId } = require('mongodb');
 const bcrypt = require('bcrypt');
+const { getPostById, getNetLikeCount } = require('./posts');
 const saltRounds = 16;
 
 /*
@@ -115,6 +116,18 @@ const removeCommentFromUser = async (userId, commentId) => {
     return await getUserById(userId);
 };
 
+const getUserNetLikeCount = async (userId) => {
+    let total = 0;
+    const user = await getUserById(userId);
+    const posts = user.posts;
+    const postsList = posts.map(obj => obj.toString());
+    for (let postId of postsList) {
+        let net = await getNetLikeCount(postId)
+        total += net;
+    }
+    return total;
+};
+
 module.exports = {
     createUser,
     checkUser,
@@ -123,5 +136,6 @@ module.exports = {
     addPostToUser,
     removePostFromUser,
     addCommentToUser,
-    removeCommentFromUser
+    removeCommentFromUser,
+    getUserNetLikeCount
 };

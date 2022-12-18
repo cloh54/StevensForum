@@ -67,11 +67,11 @@ router.get('/:id', async (req,res) => {
     try {
         let post = await postsData.getPostById(req.params.id);
         let commentsList = await postsData.getSortedCommentsByPost(req.params.id);
-        let likeCount = await postsData.getLikeCount(req.params.id);
+        let currentLikes = await postsData.getNetLikeCount(req.params.id);
         if (req.session.user) {
-            res.render('singlePost', {likeCount: likeCount, post: post, commentsList: commentsList, user: req.session.user});
+            res.render('singlePost', {post: post, commentsList: commentsList, user: req.session.user, currentLikes: currentLikes});
         } else {
-            res.render('singlePost', {likeCount: likeCount, post: post, commentsList: commentsList});
+            res.render('singlePost', {post: post, commentsList: commentsList, currentLikes: currentLikes});
         }
     } catch (e) {
         res.render('error', {error: e});
@@ -121,21 +121,21 @@ router.post('/:id/createReport', async (req, res) => {
     
 });
 
-router.post('/addLike/:id', async (req, res) => {
+router.post('/addLike/:id/:userId', async (req, res) => {
     try {
-        await postsData.addLike(req.params.id);
-        let likecount = await postsData.getLikeCount(req.params.id);
-        res.json({likecount: likecount});
+        await postsData.addLike(req.params.id, req.params.userId);
+        let likeCount = await postsData.getNetLikeCount(req.params.id);
+        res.json({likeCount: likeCount});
     } catch (e) {
         res.render('error', {error: e});
     }
 });
 
-router.post('/addDislike/:id', async (req, res) => {
+router.post('/addDislike/:id/:userId', async (req, res) => {
     try {
-        await postsData.addDislike(req.params.id);
-        let likecount = await postsData.getDislikeCount(req.params.id);
-        res.json({likecount: likecount});
+        await postsData.addDislike(req.params.id, req.params.userId);
+        let likeCount = await postsData.getNetLikeCount(req.params.id);
+        res.json({likeCount: likeCount});
     } catch (e) {
         res.render('error', {error: e});
     }
