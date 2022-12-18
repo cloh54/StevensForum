@@ -5,6 +5,7 @@ const { posts } = require('../data');
 const data = require('../data');
 const postData = data.posts;
 const userData = data.users;
+const commentData = data.comments;
 
 router
     //routes for homepage
@@ -116,13 +117,39 @@ router.get('/about', async (req, res) => {
         if (!req.session.user) {
             res.redirect('/login');
         } else {
-            let userId = req.session.user.id;
-            let user = await userData.getUserById(userId);
-            console.log(user);
-            let posts = user.posts;
-            let comments = user.comments;
-            //get the posts the user commented in. make sure they are unique
-            res.render('profile', {user: req.session.user, posts: posts, comments: comments});
+            try {
+                let userId = req.session.user.id;
+                let user = await userData.getUserById(userId);
+                console.log(user);
+                let postIdList = user.posts;
+                let postsMade = [];
+                for (let i=0; i<postIdList.length; i++) {
+                    let p = await postData.getPostById(postIdList[i].toString());
+                    postsMade.push(p);
+                }
+    
+                let commentIdList = user.comments;
+                console.log('commentIdList');
+                console.log(commentIdList);
+                let unique = new Set();
+                //get the posts the user commented in. make sure they are unique
+                for (let i=0; i<commentIdList.length; i++) {
+                    let commentId = commentIdList[i].toString();
+                    let comment = await commentData.getCommentById(commentId);
+                    let pId = comment.postId.toString();
+                    unique.add(pId);
+                }
+                let postIdCommentedIn = Array.from(unique);
+                let postsCommentedIn = [];
+                for (let i=0; i<postIdCommentedIn.length; i++) {
+                    let p = await postData.getPostById(postIdCommentedIn[i]);
+                    postsCommentedIn.push(p);
+                }
+                
+                res.render('profile', {user: req.session.user, postsMade: postsMade, postsCommentedIn: postsCommentedIn});
+            } catch (e) {
+                res.status(400).render('error', {error: e});
+            }
         }
     });
     

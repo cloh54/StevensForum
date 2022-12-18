@@ -331,6 +331,7 @@ ul {
     padding: 20px 30px;
     border: 1px solid #ccc;
     border-top: none;
+    background-color: #faf0f0;
 }
 
 .tab button.active {

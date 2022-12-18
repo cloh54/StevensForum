@@ -13,13 +13,31 @@
     </div>
 
     <div class="tabcontent" id="posts-made-container">
-        <h3>Posts made by {{suer.username}}</h3>
-        
+        <h3>Posts made by {{user.username}}</h3>
+        <ul>
+            {{#each postsMade}}
+            <li>
+                <div class="post-li">
+                    <a href="/posts/{{_id}}">{{topic}}</a>
+                    <p>{{body}}</p>
+                </div>
+            </li>
+            {{/each}}
+        </ul>
     </div>
 
     <div class="tabcontent" id="posts-commented-in-container">
         <h3>Posts {{user.username}} commented in</h3>
-
+        <ul>
+            {{#each postsCommentedIn}}
+            <li>
+                <div class="post-li">
+                    <a href="/posts/{{_id}}">{{topic}}</a>
+                    <p>{{body}}</p>
+                </div>
+            </li>
+            {{/each}}
+        </ul>
     </div>
     
     
