@@ -1,4 +1,10 @@
 <main>
+    {{#if error}}
+    <div class="error-container">
+        <p>Comment cannot be empty!</p>
+    </div>
+    {{/if}}
+
     <div class="modal" id="report-modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -107,11 +113,6 @@
         <form id="comment-form" action="/posts/{{post._id}}/comment" method="post">
             <label for="comment">Reply</label>
             <input type="text" name="comment">
-            {{#if error}}
-            <div>
-                <p>{{error}}</p>
-            </div>
-            {{/if}}
             <input type="submit" value="Comment">
         </form>
     </div>
