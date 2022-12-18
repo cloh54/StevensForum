@@ -6,12 +6,12 @@
     <h1>{{user.username}}</h1>
     <h2>Total Reputation: {{reputation}}</h2>
     <div class="tab">
-        <button class="tablinks" id="posts-made-button" onclick="showTab(event, 'posts-made-container')">Posts made by {{user.username}}</button>
-        <button class="tablinks" id="posts-commented-in-button" onclick="showTab(event, 'posts-commented-in-container')">Posts {{user.username}} commented in</button>
+        <button class="tablinks" id="posts-made-button" onclick="showTab(event, 'posts-made-container')">Your posts</button>
+        <button class="tablinks" id="posts-commented-in-button" onclick="showTab(event, 'posts-commented-in-container')">Posts you commented in</button>
     </div>
 
     <div class="tabcontent" id="posts-made-container">
-        <h3>Posts made by {{user.username}}</h3>
+        <h3>Your posts</h3>
         <ul>
             {{#each postsMade}}
             <li>
@@ -33,7 +33,7 @@
     </div>
 
     <div class="tabcontent" id="posts-commented-in-container">
-        <h3>Posts {{user.username}} commented in</h3>
+        <h3>Posts you commented in</h3>
         <ul>
             {{#each postsCommentedIn}}
             <li>
