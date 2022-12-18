@@ -26,17 +26,17 @@
                 <div class="form-container">
                     <form id="edit-post-form" action="/posts/{{post._id}}/edit" method="post">
                         <label for="topic">Topic</label>
-                        <input type="text" id="topic" name="topic">
+                        <input type="text" id="topic" name="topic" value="{{post.topic}}">
 
                         <label for="body">Body</label>
-                        <input type="text" id="body" name="body">
+                        <input type="text" id="body" name="body" value="{{post.body}}">
 
                         <label for="tags">Tags (optional)</label>
                         <div class="inform">
                             <p class="tagDesc">tags must be comma seperated words</p>
                             <p class="tagDesc">for example: computer science, python, recursion</p>
                         </div>
-                        <input type="text" id="tags" name="tags">
+                        <input type="text" id="tags" name="tags" value="{{post.tags}}">
 
                         <input type="submit" value="Submit">
                     </form>
