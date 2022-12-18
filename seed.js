@@ -1,5 +1,5 @@
-const { createComment } = require("./data/comments");
-const { createPost } = require("./data/posts");
+//const { createComment } = require("./data/comments");
+const { createPost, addCommentToPost } = require("./data/posts");
 const { createUser, getUserById } = require("./data/users");
 
 const MongoClient = require("mongodb").MongoClient;
@@ -28,7 +28,7 @@ async function seedDB(){
         let studB = await createUser('GoodGrades', '44332211', false);
        
         let postA = await createPost(studA._id.toString(), studA.username, 'About the final', 'Does anyone know if the CS final will be in person or online?', 'CS');
-        studcomment = await createComment(studB._id.toString(), studB.username, postA._id.toString(), 'I think that the professor said it would be in person');
+        studcomment = await addCommentToPost(studB._id.toString(), studB.username, postA._id.toString(), 'I think that the professor said it would be in person');
         
         
         console.log("Seeded!");
