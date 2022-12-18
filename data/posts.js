@@ -107,20 +107,20 @@ const editPost = async (id, topic, body, tags) => {
 };
 
 const removePost = async (id) => {
-    console.log('postsData removePost');
     id = validation.checkId(id);
     //delete comments from post
     const post = await getPostById(id);
     let userId = post.userId.toString();
     let commentArr = post.comments;
     for (let i=0; i<commentArr.length; i++) {
-        await commentsCollection.removeComment(commentArr[i]._id.toString());
+        await commentsCollection.removeComment(commentArr[i].toString());
     }
     // delete any reports on this post
     const reports = await reportsCollection.getReportsByPost(id);
     for (let i=0; i<reports.length; i++) {
         await reportsCollection.removeReport(reports[i]._id.toString());
     }
+    console.log('3');
     // delete post from user
     await usersCollection.removePostFromUser(userId, id);
 
