@@ -106,6 +106,11 @@
         <form id="comment-form" action="/posts/{{post._id}}/comment" method="post">
             <label for="comment">Reply</label>
             <input type="text" name="comment">
+            {{#if error}}
+            <div>
+                <p>{{error}}</p>
+            </div>
+            {{/if}}
             <input type="submit" value="Comment">
         </form>
     </div>
@@ -140,8 +145,6 @@ $.ajax({
     $('#likeCount').text(data.likeCount);
   }
 });
-$(this).addClass('clicked').prop('disabled', true);
-$('#dislike').removeClass('clicked').prop('disabled', false);
 });
 
 
@@ -156,7 +159,6 @@ $.ajax({
     $('#likeCount').text(data.likeCount);
   }
 });
-$(this).addClass('clicked').prop('disabled', true);
-$('#like').removeClass('clicked').prop('disabled', false);
 });
+
 </script>
