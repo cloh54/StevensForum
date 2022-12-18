@@ -25,16 +25,19 @@ router
         if (!req.session.user) {
             res.redirect('/login');
         } else {
-            res.render('createPost', {user: req.session.user});
+            res.render('createPost', {user: req.session.user, formValues: {topic: "", body: "", tags: ""}});
         }
     })
     .post(async (req, res) => {
+        const userId = req.session.user.id;
+        const userName = req.session.user.username;
+        const topic = req.body.topic;
+        const body = req.body.body;
+        const tags = req.body.tags; 
+        let formValues = {topic: topic,
+                          body: body,
+                          tags: tags};
         try {
-            const userId = req.session.user.id;
-            const userName = req.session.user.username;
-            const topic = req.body.topic;
-            const body = req.body.body;
-            const tags = req.body.tags; 
             let post = await postData.createPost(userId, userName, topic, body, tags);
             if (req.session.user) {
                 res.render('singlePost', {post: post, user: req.session.user});
@@ -44,7 +47,7 @@ router
         } catch (e) {
             res.status(400);
             console.log(e);
-            res.render('createPost', {error: e, user: req.session.user});
+            res.render('createPost', {error: e, user: req.session.user, formValues: formValues});
         }
     }) 
 
