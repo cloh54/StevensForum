@@ -68,15 +68,30 @@ router.get('/:id', async (req,res) => {
         let post = await postsData.getPostById(req.params.id);
         let commentsList = await postsData.getSortedCommentsByPost(req.params.id);
         let currentLikes = await postsData.getNetLikeCount(req.params.id);
+        let likeStatus = "none";
         const error = req.query.error;
         if (req.session.user) {
+            console.log("user: " + req.session.user.id);
+            //check if session user liked or disliked
+            for (let i=0; i<post.likes.length; i++) {
+                console.log(post.likes[i].toString());
+                if (post.likes[i].toString() === req.session.user.id) {
+                    likeStatus = "like";
+                    console.log('like should be hit')
+                }
+            }
+            for (let i=0; i<post.dislikes.length; i++) {
+                if (post.dislikes[i].toString() === req.session.user.id) {
+                    likeStatus = "dislike";
+                }
+            }
             if (error) {
-                res.render('singlePost', {post: post, commentsList: commentsList, user: req.session.user, currentLikes: currentLikes, error: error});
+                res.render('singlePost', {post: post, commentsList: commentsList, user: req.session.user, currentLikes: currentLikes, error: error, likeStatus: likeStatus});
             } else {
-                res.render('singlePost', {post: post, commentsList: commentsList, user: req.session.user, currentLikes: currentLikes});
+                res.render('singlePost', {post: post, commentsList: commentsList, user: req.session.user, currentLikes: currentLikes, likeStatus: likeStatus});
             }
         } else {
-            res.render('singlePost', {post: post, commentsList: commentsList, currentLikes: currentLikes});
+            res.render('singlePost', {post: post, commentsList: commentsList, currentLikes: currentLikes, likeStatus: likeStatus});
         }
     } catch (e) {
         res.render('error', {error: e});

@@ -428,3 +428,11 @@ ul {
 .logout-container a:hover {
     background-color: rgb(45, 116, 138);
 }
+
+.green {
+    color: green;
+}
+
+.red {
+    color: red;
+}

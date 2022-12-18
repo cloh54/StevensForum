@@ -135,32 +135,68 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
+$(document).ready(function() {
+    let status = '{{likeStatus}}';
+    if (!status) {
+        //do nothing
+    }
+    if (status === 'like') {
+        //likeButton.classList.add(" green");
+        $('#like').addClass('green')
+    } else if (status === 'dislike') {
+        $('#dislike').addClass("red");
+    } else if (status === 'none') {
+        
+    } else {
+        
+    }
+
+});
+
 
 $('#like').click(function() {
-let id = '{{post._id}}';
-let userId = '{{post.userId}}';
+    let id = '{{post._id}}';
+    let userId = '{{post.userId}}';
 
-$.ajax({
-  url: '/posts/addLike/' + id + '/' + userId,
-  method: 'POST',
-  success: function(data) {
-    $('#likeCount').text(data.likeCount);
-  }
-});
+    if ($('#like').hasClass('green')) {
+        $('#like').removeClass('green');
+    } else {
+        $('#like').addClass('green');
+    }
+    if ($('#dislike').hasClass('red')) {
+        $('#dislike').removeClass('red');
+    }
+
+    $.ajax({
+    url: '/posts/addLike/' + id + '/' + userId,
+    method: 'POST',
+    success: function(data) {
+        $('#likeCount').text(data.likeCount);
+    }
+    });
 });
 
 
 $('#dislike').click(function() {
-let id = '{{post._id}}';
-let userId = '{{post.userId}}';
+    let id = '{{post._id}}';
+    let userId = '{{post.userId}}';
 
-$.ajax({
-  url: '/posts/addDislike/' + id + '/' + userId,
-  method: 'POST',
-  success: function(data) {
-    $('#likeCount').text(data.likeCount);
-  }
-});
+    if ($('#dislike').hasClass('red')) {
+        $('#dislike').removeClass('red');
+    } else {
+        $('#dislike').addClass('red');
+    }
+    if ($('#like').hasClass('green')) {
+        $('#like').removeClass('green');
+    }
+
+    $.ajax({
+    url: '/posts/addDislike/' + id + '/' + userId,
+    method: 'POST',
+    success: function(data) {
+        $('#likeCount').text(data.likeCount);
+    }
+    });
 });
 
 </script>
