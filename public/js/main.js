@@ -36,4 +36,6 @@
     closeDeletePost.onclick = function() {
         deletePostModal.style.display = "none";
     };
+
+    
 })();
