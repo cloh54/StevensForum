@@ -436,3 +436,7 @@ ul {
 .red {
     color: red;
 }
+
+.edit-delete-comment-button-container {
+    float: right;
+}

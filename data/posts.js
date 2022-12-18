@@ -154,6 +154,7 @@ const addCommentToPost = async (userId, userName, postId, body) => {
 const removeCommentFromPost = async (postId, commentId) => {
     postId = validation.checkId(postId);
     commentId = validation.checkId(commentId);
+    await commentsCollection.removeComment(commentId);
     const postCollection = await posts();
     const updatedInfo = await postCollection.updateOne(
         {_id: ObjectId(postId)},

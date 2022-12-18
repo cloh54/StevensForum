@@ -69,6 +69,7 @@ router.get('/:id', async (req,res) => {
         let commentsList = await postsData.getSortedCommentsByPost(req.params.id);
         let currentLikes = await postsData.getNetLikeCount(req.params.id);
         let likeStatus = "none";
+        console.log(commentsList);
         const error = req.query.error;
         if (req.session.user) {
             console.log("user: " + req.session.user.id);
@@ -77,7 +78,6 @@ router.get('/:id', async (req,res) => {
                 console.log(post.likes[i].toString());
                 if (post.likes[i].toString() === req.session.user.id) {
                     likeStatus = "like";
-                    console.log('like should be hit')
                 }
             }
             for (let i=0; i<post.dislikes.length; i++) {
@@ -128,6 +128,21 @@ router.post('/:id/comment', async (req, res) => {
         res.redirect(`/posts/${req.params.id}`);
     } catch (e) {
         res.redirect(`/posts/${req.params.id}?error=${e}`);
+    }
+});
+
+router.post('/:id/comment/:commentId/delete', async (req, res) => {
+    try {
+        console.log('route delete comment');
+        let comment = await commentsData.getCommentById(req.params.commentId);
+        if (!(comment.userId.toString() === req.session.user.id)) {
+            res.redirect('/');
+        } else {
+            await postsData.removeCommentFromPost(req.params.id, req.params.commentId);
+            res.redirect(`/posts/${req.params.id}`);
+        }
+    } catch (e) {
+        res.render('error', {error: e});
     }
 });
 
