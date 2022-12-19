@@ -12,7 +12,6 @@ router.get('/', async (req, res) => {
             res.render('reports', {user: req.session.user});
         } else {
             let reportList = await reportsData.getAllReports();
-            console.log(reportList);
             // the below is returns promise pending 
             // const reportListWithPosts = reportList.map(async object => {
             //     const post = await postsData.getPostById(object.postId.toString());
@@ -34,7 +33,6 @@ router.get('/', async (req, res) => {
                     await reportsData.removeReport(report._id.toString());
                 }
             }
-            console.log(reportListWithPosts);
             res.render('reports', {list: reportListWithPosts, user: req.session.user});
         }
     } catch (e) {

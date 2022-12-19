@@ -18,7 +18,6 @@ const createComment = async (userId, userName, postId, body) => {
     userId = validation.checkId(userId);
     postId = validation.checkId(postId);
     body = validation.checkString(body, 'body');
-    console.log("test");
     const currDate = new Date();
     const commentCollection = await comments();
     let newComment = {
@@ -35,7 +34,6 @@ const createComment = async (userId, userName, postId, body) => {
     //await postsCollection.addCommentToPost(postId, newId);
     //add comment to user
     await usersCollection.addCommentToUser(userId, newId);
-    console.log('create comment');
     return await getCommentById(newId);
 };
 

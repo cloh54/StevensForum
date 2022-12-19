@@ -16,7 +16,6 @@ router.get('/', async (req, res) => {
                      mostCommented: mostCommentedPosts,
                      mostLiked: mostLikedPosts};
 
-        //console.log(posts);
         if (req.session.user) {
             res.render('viewPosts', {posts: posts, newPosts: true, user: req.session.user});
         } else {
@@ -31,8 +30,6 @@ router
     .route('/search')
     .post(async (req, res) => {
         try {
-            console.log('search');
-            console.log(req.body);
             if (req.body.searchOptions === 'topic') {
                 try {
                     let posts = await postsData.searchPostByTopic(req.body.search);
@@ -69,13 +66,10 @@ router.get('/:id', async (req,res) => {
         let commentsList = await postsData.getSortedCommentsByPost(req.params.id);
         let currentLikes = await postsData.getNetLikeCount(req.params.id);
         let likeStatus = "none";
-        console.log(commentsList);
         const error = req.query.error;
         if (req.session.user) {
-            console.log("user: " + req.session.user.id);
             //check if session user liked or disliked
             for (let i=0; i<post.likes.length; i++) {
-                console.log(post.likes[i].toString());
                 if (post.likes[i].toString() === req.session.user.id) {
                     likeStatus = "like";
                 }
@@ -100,7 +94,6 @@ router.get('/:id', async (req,res) => {
 
 router.post('/:id/edit', async (req, res) => {
     try {
-        console.log('edit post');
         let editedPost = await postsData.editPost(req.params.id, req.body.topic, req.body.body, req.body.tags);
         res.redirect(`/posts/${req.params.id}`);
     } catch (e) {
@@ -110,7 +103,6 @@ router.post('/:id/edit', async (req, res) => {
 
 router.post('/:id/delete', async (req, res) => {
     try {
-        console.log('route delete post');
         await postsData.removePost(req.params.id);
         res.redirect('/');
     } catch (e) {
@@ -122,9 +114,7 @@ router.post('/:id/comment', async (req, res) => {
     try {
         let userId = req.session.user.id;
         let userName = req.session.user.username;
-        console.log('post comment');
         let post = await postsData.addCommentToPost(userId, userName, req.params.id, req.body.comment);
-        console.log(post);
         res.redirect(`/posts/${req.params.id}`);
     } catch (e) {
         res.redirect(`/posts/${req.params.id}?error=${e}`);
@@ -133,7 +123,6 @@ router.post('/:id/comment', async (req, res) => {
 
 router.post('/:id/comment/:commentId/delete', async (req, res) => {
     try {
-        console.log('route delete comment');
         let comment = await commentsData.getCommentById(req.params.commentId);
         if (!(comment.userId.toString() === req.session.user.id)) {
             res.redirect('/');
