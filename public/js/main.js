@@ -36,16 +36,4 @@
     closeDeletePost.onclick = function() {
         deletePostModal.style.display = "none";
     };
-
-    let deleteCommentModal = document.getElementById("delete-comment-modal");
-    let deleteCommentButton = document.getElementById("delete-comment-button");
-    let closeDeleteComment = document.getElementById("close-delete-comment");
-
-    deleteCommentButton.onclick = function() {
-        deleteCommentModal.style.display = "block";
-    };
-
-    closeDeleteComment.onclick = function() {
-        deleteCommentModal.style.display = "none";
-    };
 })();
