@@ -46,7 +46,6 @@ router
             }
         } catch (e) {
             res.status(400);
-            console.log(e);
             res.render('createPost', {error: e, user: req.session.user, formValues: formValues});
         }
     }) 
@@ -102,10 +101,8 @@ router.get('/about', async (req, res) => {
     router.post('/login', async(req,res) => {
         try {
             let user = await userData.checkUser(req.body.usernameInput, req.body.passwordInput);
-            console.log(user);
             if (user) {
                 req.session.user = {id: user._id.toString(), username: req.body.usernameInput, admin: user.admin};
-                console.log(req.session.user);
                 res.redirect('/');
             } else {
                 res.status(500).json({error: 'Internal Server Error'});
@@ -123,7 +120,6 @@ router.get('/about', async (req, res) => {
             try {
                 let userId = req.session.user.id;
                 let user = await userData.getUserById(userId);
-                console.log(user);
                 let postIdList = user.posts;
                 let postsMade = [];
                 for (let i=0; i<postIdList.length; i++) {
@@ -132,8 +128,6 @@ router.get('/about', async (req, res) => {
                 }
     
                 let commentIdList = user.comments;
-                console.log('commentIdList');
-                console.log(commentIdList);
                 let unique = new Set();
                 //get the posts the user commented in. make sure they are unique
                 for (let i=0; i<commentIdList.length; i++) {

@@ -34,7 +34,6 @@ const createPost = async (userId, userName, topic, body, tags) => {
             tags[i] = tags[i].trim().toLowerCase();
         }
     }
-    console.log(tags);
     for (let i=tags.length-1; i>=0; i--) {
         if (tags[i].length === 0) {
             tags.splice(i, i+1);
@@ -43,7 +42,6 @@ const createPost = async (userId, userName, topic, body, tags) => {
     const currDate = new Date();
     const postCollection = await posts();
     let user = await usersCollection.getUserById(userId);
-    console.log(userName);
     let newPost = {
         userId: ObjectId(userId),
         userName: userName,
@@ -67,7 +65,6 @@ const createPost = async (userId, userName, topic, body, tags) => {
 };
 
 const editPost = async (id, topic, body, tags) => {
-    console.log('postData editpost');
     id = validation.checkId(id);
     topic = validation.checkString(topic, 'topic');
     body = validation.checkString(body, 'body');
@@ -80,10 +77,7 @@ const editPost = async (id, topic, body, tags) => {
             tags[i] = tags[i].trim().toLowerCase();
         }
     }
-    console.log(tags);
     for (let i=tags.length-1; i>=0; i--) {
-        console.log(i)
-        console.log(tags[i]);
         if (tags[i].length === 0) {
             tags.splice(i, i+1);
         }
@@ -120,7 +114,6 @@ const removePost = async (id) => {
     for (let i=0; i<reports.length; i++) {
         await reportsCollection.removeReport(reports[i]._id.toString());
     }
-    console.log('3');
     // delete post from user
     await usersCollection.removePostFromUser(userId, id);
 
@@ -217,8 +210,6 @@ const addLike = async (postId, userId) => {
     if (strDislikeList.includes(userId)) {
         await removeDislike(postId, userId);
     }
-    console.log('addLike');
-    console.log(userId);
     const updatedInfo = await postCollection.updateOne(
         { _id: ObjectId(postId) },
         { $addToSet: {likes: ObjectId(userId)} }
@@ -291,15 +282,12 @@ const searchPostByTopic = async (input) => {
 const searchPostByTags = async (input) => {
     // input is a comma separated string
     input = validation.checkString(input, 'input');
-    console.log(input);
     let inputArr = input.split(',');
     for (let i=0; i<inputArr.length; i++) {
         inputArr[i] = inputArr[i].trim().toLowerCase();
     }
-    console.log(inputArr);
     const postCollection = await posts();
     let postsArr = await postCollection.find({ tags: { $all: inputArr} }).toArray();
-    console.log(postsArr);
     return postsArr;
 };
 
@@ -314,7 +302,6 @@ const getAllPostsByNewest = async () => {
     allPosts.sort(function(a,b) {
         return b.lastUpdated - a.lastUpdated;
     });
-    console.log(allPosts);
     return allPosts;
 };
 
