@@ -217,7 +217,8 @@ const addLike = async (postId, userId) => {
     if (strDislikeList.includes(userId)) {
         await removeDislike(postId, userId);
     }
-
+    console.log('addLike');
+    console.log(userId);
     const updatedInfo = await postCollection.updateOne(
         { _id: ObjectId(postId) },
         { $addToSet: {likes: ObjectId(userId)} }

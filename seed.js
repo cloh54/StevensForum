@@ -24,9 +24,9 @@ async function seedDB(){
         commentsCollection.deleteMany({});
         
        
-        let prof = await createUser('DrProfessor', '00000000', true);
-        let studA = await createUser('BigLearner', '11223344', false);
-        let studB = await createUser('GoodGrades', '44332211', false);
+        let prof = await createUser('DrProfessor', 'password', true);
+        let studA = await createUser('BigLearner', 'password', false);
+        let studB = await createUser('GoodGrades', 'password', false);
         let studC = await createUser('muffin_man', 'password', false);
         let studD = await createUser('davidism', 'password', false);
         let studE = await createUser('kyle_f', 'password', false);

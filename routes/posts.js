@@ -156,9 +156,9 @@ router.post('/:id/createReport', async (req, res) => {
     
 });
 
-router.post('/addLike/:id/:userId', async (req, res) => {
+router.post('/addLike/:id', async (req, res) => {
     try {
-        await postsData.addLike(req.params.id, req.params.userId);
+        await postsData.addLike(req.params.id, req.session.user.id);
         let likeCount = await postsData.getNetLikeCount(req.params.id);
         res.json({likeCount: likeCount});
     } catch (e) {
@@ -166,9 +166,9 @@ router.post('/addLike/:id/:userId', async (req, res) => {
     }
 });
 
-router.post('/addDislike/:id/:userId', async (req, res) => {
+router.post('/addDislike/:id', async (req, res) => {
     try {
-        await postsData.addDislike(req.params.id, req.params.userId);
+        await postsData.addDislike(req.params.id, req.session.user.id);
         let likeCount = await postsData.getNetLikeCount(req.params.id);
         res.json({likeCount: likeCount});
     } catch (e) {

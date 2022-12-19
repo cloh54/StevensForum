@@ -189,7 +189,7 @@ $('#like').click(function() {
     }
 
     $.ajax({
-    url: '/posts/addLike/' + id + '/' + userId,
+    url: '/posts/addLike/' + id,// + '/' + userId,
     method: 'POST',
     success: function(data) {
         $('#likeCount').text(data.likeCount);
@@ -212,7 +212,7 @@ $('#dislike').click(function() {
     }
 
     $.ajax({
-    url: '/posts/addDislike/' + id + '/' + userId,
+    url: '/posts/addDislike/' + id,// + '/' + userId,
     method: 'POST',
     success: function(data) {
         $('#likeCount').text(data.likeCount);
