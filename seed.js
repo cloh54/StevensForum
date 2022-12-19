@@ -92,7 +92,7 @@ async function seedDB(){
 
         let postJ = await createPost(studJ._id.toString(), studJ.username, "Merge conflicts in git", "How do I resolve merge conflicts in my Git repository?", "git, git-merge, merge, conflict, merge-conflict");
         await addCommentToPost(studG._id.toString(), studG.username, postJ._id.toString(), "Try git mergetool. It opens a GUI that steps you through each conflict, and you get to choose how to merge. Sometimes it requires a bit of hand editing afterwards, but usually it's enough by itself. It is much better than doing the whole thing by hand certainly.");
-        await addDislike(postJ._id.toString(), studH._id.toString());
+        await addLike(postJ._id.toString(), studH._id.toString());
 
         console.log("Seeded!");
         client.close();
